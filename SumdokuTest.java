@@ -1,5 +1,5 @@
 import java.util.Arrays;
-import SumdokuLib.*;
+
 
 /**
  * The {@code SumdokuTest} tests some functions and other procedures of  
@@ -366,5 +366,12 @@ public class SumdokuTest {
 		return groups;
 	}
 
+	public class Sumdoku {
+		public static void main(String[] args) {
+	
+			SumdokuGrid grid = new SumdokuGrid(3);
+	
+		}
+	}
 
 }
