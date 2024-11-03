@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import SumdokuLib.*;
 
 /**
  * The {@code SumdokuTest} tests some functions and other procedures of  
@@ -9,7 +10,7 @@ import java.util.Arrays;
  * 
  * @author malopes IP2425@LEI-FCUL 
  * @version 1
- */
+ */  
 
 public class SumdokuTest {
 
