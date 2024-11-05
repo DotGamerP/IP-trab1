@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 
 /**
@@ -369,9 +370,49 @@ public class SumdokuTest {
 	public class Sumdoku {
 		public static void main(String[] args) {
 	
-			SumdokuGrid grid = new SumdokuGrid(3);
+			
 	
 		}
+
+		public static int rowOfSquare(int square, int gridSize){
+			return 2;
+		}
+
+		public static int columnOfSquare(int square, int gridSize){
+			return 2;
+		}
+
+		public static boolean isValidForPuzzle(SumdokuGrid grid){
+			return true;
+		}
+
+		public static boolean isValidForPuzzle(GridGroups obj1){
+			return true;
+		}
+
+		public static boolean definesPuzzle(SumdokuGrid obj1, GridGroups obj2){
+			return true;
+		}
+
+		public static String cluesToString(SumdokuGrid obj1, GridGroups obj2){
+			return "a";
+		}
+
+		public static void readGrid(int size, Scanner obj1){
+			//
+		}
+
+		public static void readGroups(SumdokuGrid grid, Scanner obj1){
+			//
+		}
+
+		//falta mais
+
+		public static boolean puzzleSolved(SumdokuGrid playedGrid){
+			return true;
+		}
+
+		//falta mais
 	}
 
 }
