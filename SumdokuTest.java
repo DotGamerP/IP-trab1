@@ -9,6 +9,11 @@ import java.util.Scanner;
  * 		Compile: javac -cp  SumdokuLib.jar   Sumdoku.java SumdokuTest.java
  * 		Execute: java  -cp  SumdokuLib.jar:. SumdokuTest
  * 
+ * 
+ * 		IN WINDOWS:
+ * 		Compile: javac -cp SumdokuLib.jar SumdokuTest.java
+ * 		Execute: java -cp "SumdokuLib.jar;." SumdokuTest
+ * 
  * @author malopes IP2425@LEI-FCUL 
  * @version 1
  */  
@@ -379,7 +384,21 @@ public class SumdokuTest {
 		}
 
 		public static int columnOfSquare(int square, int gridSize){
-			return 2;
+
+			/*
+			-> In the first row we'll have the squares from 1 to "gridSize" 
+			-> That's why we'll subtract the "gridSize" to the square number in order to theoretically go down one row
+			*/
+			while (square>gridSize){
+				square -= gridSize;
+			}
+
+			// Once the square number is less or equal than the "gridSize", we'll be getting exactly the column number
+			int columnNumber = square;
+
+			// We return the column number
+			return columnNumber;
+
 		}
 
 		public static boolean isValidForPuzzle(SumdokuGrid grid){
@@ -408,7 +427,7 @@ public class SumdokuTest {
 
 		//falta mais
 
-		public static boolean puzzleSolved(SumdokuGrid playedGrid){
+		public static boolean puzzleSolved(SumdokuGrid playedGrid, SumdokuGrid grid){
 			return true;
 		}
 
