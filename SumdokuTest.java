@@ -380,7 +380,20 @@ public class SumdokuTest {
 		}
 
 		public static int rowOfSquare(int square, int gridSize){
-			return 2;
+
+			/*
+			-> In each row, we have a "gridSize" number of squares
+			-> That's why we'll be basically dividing the whole grid by the "gridSize" number in order to distinguish each row
+			-> In order to get the row number we could, for example, divide the square number by the "gridSize" and add 1 (EXCEPT IF WE'RE DEALING WITH THE LAST SQUARE OF THE ROW)
+			-> If we're dividing the number of the last square of a row by the "gridSize" we'll get a row number that's too high
+			-> So, we'll be theoretically thinking that the first square is the number 0, in order for every calculation to be fine (square-1)
+			*/
+
+			// We calculate and store the row number
+			int rowNumber = ((square-1)/gridSize) + 1;
+
+			// We return the row number
+			return rowNumber;
 		}
 
 		public static int columnOfSquare(int square, int gridSize){
