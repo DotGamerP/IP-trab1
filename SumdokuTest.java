@@ -415,7 +415,7 @@ public class SumdokuTest {
 		}
 
 		public static boolean isValidForPuzzle(SumdokuGrid grid){
-			return true;
+				return true;
 		}
 
 		public static boolean isValidForPuzzle(GridGroups obj1){
