@@ -415,6 +415,20 @@ public class SumdokuTest {
 		}
 
 		public static boolean isValidForPuzzle(SumdokuGrid grid){
+
+			int gridSize = grid.Size();
+			int rowRepeated = 0;
+
+			for(int i = 1; i <= gridSize; i++)
+
+				for(int j = 1; j < gridSize; j++)
+
+					for(int k = 2; k <= gridSize; k++)
+
+						if(grid.Value(i, j) == grid.Value(i, k))
+							rowRepeated--;
+
+			if(rowRepeated < 0)
 				return true;
 		}
 
