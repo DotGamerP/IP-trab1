@@ -419,7 +419,29 @@ public class SumdokuTest {
 		}
 
 		public static boolean isValidForPuzzle(GridGroups groups){
-			return true;
+
+			/*
+			-> First we'll verify if "groups":
+				· have a null value
+				· doesn't have every square in a group
+				· have empty groups
+				· doesn't have a size (".gridSize()") greater than 2 and less than 10 
+			-> If at least one of these conditions is true, the object won't be valid (we'll return false)
+			*/
+
+			if (groups == null || !isEverySquareInGroup(groups) || hasEmptyGroup(groups) || !(groups.gridSize() > 2 && groups.gridSize() < 10)){
+				return false;
+			} else {
+
+				return true;
+			}
+
+			/*
+			------  NOTE:  --------
+			If we used "&&" ("and" statements) the machine would need to verify each condition.
+			When using "||" ("or" statements) the machine stops at the moment one single condition is true. -> [More efficient]
+			*/
+
 		}
 
 		public static boolean definesPuzzle(SumdokuGrid obj1, GridGroups obj2){
