@@ -405,7 +405,7 @@ public class SumdokuTest {
 
 		public static boolean isValidForPuzzle(SumdokuGrid grid){
 
-			int gridSize = grid.Size();
+			int gridSize = grid.size();
 			int rowRepeated = 0;
 
 			for(int i = 1; i <= gridSize; i++)
