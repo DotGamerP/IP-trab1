@@ -466,7 +466,7 @@ public class SumdokuTest {
 			boolean gEmpty; // We define a variable that will track if a group (g) is empty or not
 			
 			// We'll go through every group number
-			for(int g = 1; g <= groups.numberOfGroups()){
+			for(int g = 1; g <= groups.numberOfGroups(); g++){
 				gEmpty = true; // We start stating that the group is empty
 
 				// We'll go through every square while the group is empty ("gEmpty == true")
