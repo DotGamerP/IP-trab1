@@ -389,11 +389,8 @@ public class SumdokuTest {
 			-> So, we'll be theoretically thinking that the first square is the number 0, in order for every calculation to be fine (square-1)
 			*/
 
-			// We calculate and store the row number
-			int rowNumber = ((square-1)/gridSize) + 1;
-
-			// We return the row number
-			return rowNumber;
+			int rowNumber = ((square-1)/gridSize) + 1; // We calculate and store the row number
+			return rowNumber; // We return the row number
 		}
 
 		public static int columnOfSquare(int square, int gridSize){
@@ -406,11 +403,8 @@ public class SumdokuTest {
 				square -= gridSize;
 			}
 
-			// Once the square number is less or equal than the "gridSize", we'll be getting exactly the column number
-			int columnNumber = square;
-
-			// We return the column number
-			return columnNumber;
+			int columnNumber = square; // Once the square number is less or equal than the "gridSize", we'll be getting exactly the column number
+			return columnNumber; // We return the column number
 
 		}
 
@@ -432,8 +426,69 @@ public class SumdokuTest {
 				return true;
 		}
 
-		public static boolean isValidForPuzzle(GridGroups obj1){
-			return true;
+		public static boolean isValidForPuzzle(GridGroups groups){
+
+			/*
+			-> First we'll verify if "groups":
+				· have a null value
+				· doesn't have every square in a group
+				· have empty groups
+				· doesn't have a size (".gridSize()") greater than 2 and less than 10 
+			-> If at least one of these conditions is true, the object won't be valid
+			*/
+
+			if (groups == null || !isEverySquareInGroup(groups) || hasEmptyGroup(groups) || !(groups.gridSize() > 2 && groups.gridSize() < 10)){
+				return false; // The object isn't valid (we'll return false)
+			} else {			
+				return true; // The object is valid (we'll return true)
+			}
+
+			/*-----------------------------------------------  NOTE:  -------------------------------------------------------------
+			| If we used "&&" ("and" statements) the machine would need to verify each condition.                                 |
+			| When using "||" ("or" statements) the machine stops at the moment one single condition is true. -> [More efficient] |
+			---------------------------------------------------------------------------------------------------------------------*/
+
+		}
+
+		public static boolean isEverySquareInGroup(GridGroups groups){
+
+			// We'll go through every square of the grid
+			for(int r = 1; r <= groups.gridSize(); r++){
+				for(int c = 1; c <= groups.gridSize(); c++){
+					
+					// If the group of the square in the row "r" and column "c" is 0, it doesn't belong to a group
+					if (groups.groupOfSquare(r, c) == 0)
+						return false; // If at least one square doesn't belong to a group, we'll return false
+				}
+			}
+
+			return true; // If it never found a square without a group, we'll return true
+
+		}
+
+		public static boolean hasEmptyGroup(GridGroups groups){
+
+			boolean gEmpty; // We define a variable that will track if a group (g) is empty or not
+			
+			// We'll go through every group number
+			for(int g = 1; g <= groups.numberOfGroups()){
+				gEmpty = true; // We start stating that the group is empty
+
+				// We'll go through every square while the group is empty ("gEmpty == true")
+				for(int r = 1; r <= groups.gridSize() && gEmpty; r++){
+					for(int c = 1; c <= groups.gridSize() && gEmpty; c++){
+						// We verify if the group of the square is the group we're working with at the moment
+						if (groups.groupOfSquare(r, c) == g)
+							gEmpty = false; // If the group of the square is the one we're working with, we'll state the group isn't empty anymore
+					}
+				}
+				// We verify after going through the squares if the group we're working with is empty
+				if (gEmpty)
+					return true; // If we have an empty group, we return true
+			}
+
+			return false; // If it never found a group without squares, we'll return false
+
 		}
 
 		public static boolean definesPuzzle(SumdokuGrid obj1, GridGroups obj2){
