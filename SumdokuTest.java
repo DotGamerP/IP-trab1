@@ -414,7 +414,7 @@ public class SumdokuTest {
 
 					for(int k = 2; k <= gridSize; k++)
 
-						if(grid.Value(i, j) == grid.Value(i, k))
+						if(grid.value(i, j) == grid.value(i, k))
 							rowRepeated--;
 
 			if(rowRepeated < 0)
