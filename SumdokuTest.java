@@ -373,11 +373,6 @@ public class SumdokuTest {
 	}
 
 	public class Sumdoku {
-		public static void main(String[] args) {
-	
-			
-	
-		}
 
 		public static int rowOfSquare(int square, int gridSize){
 
