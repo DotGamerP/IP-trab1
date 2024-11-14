@@ -424,6 +424,9 @@ public class SumdokuTest {
 
 			if(rowRepeated < 0)
 				return true;
+
+			else 
+				return false;
 		}
 
 		public static boolean isValidForPuzzle(GridGroups groups){
