@@ -373,11 +373,6 @@ public class SumdokuTest {
 	}
 
 	public class Sumdoku {
-		public static void main(String[] args) {
-	
-			
-	
-		}
 
 		public static int rowOfSquare(int square, int gridSize){
 
@@ -410,7 +405,7 @@ public class SumdokuTest {
 
 		public static boolean isValidForPuzzle(SumdokuGrid grid){
 
-			int gridSize = grid.Size();
+			int gridSize = grid.size();
 			int rowRepeated = 0;
 
 			for(int i = 1; i <= gridSize; i++)
@@ -419,7 +414,7 @@ public class SumdokuTest {
 
 					for(int k = 2; k <= gridSize; k++)
 
-						if(grid.Value(i, j) == grid.Value(i, k))
+						if(grid.value(i, j) == grid.value(i, k))
 							rowRepeated--;
 
 			if(rowRepeated < 0)
@@ -474,7 +469,7 @@ public class SumdokuTest {
 			boolean gEmpty; // We define a variable that will track if a group (g) is empty or not
 			
 			// We'll go through every group number
-			for(int g = 1; g <= groups.numberOfGroups()){
+			for(int g = 1; g <= groups.numberOfGroups(); g++){
 				gEmpty = true; // We start stating that the group is empty
 
 				// We'll go through every square while the group is empty ("gEmpty == true")
