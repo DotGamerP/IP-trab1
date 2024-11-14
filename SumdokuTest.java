@@ -394,7 +394,7 @@ public class SumdokuTest {
 			-> In the first row we'll have the squares from 1 to "gridSize" 
 			-> That's why we'll subtract the "gridSize" to the square number in order to theoretically go down one row
 			*/
-			while (square>gridSize){
+			while (square > gridSize){
 				square -= gridSize;
 			}
 
@@ -450,9 +450,12 @@ public class SumdokuTest {
 
 		public static boolean isEverySquareInGroup(GridGroups groups){
 
+			// We store the grid size in a variable in order to optimize the speed of the code
+			int gridSize = groups.gridSize(); 
+
 			// We'll go through every square of the grid
-			for(int r = 1; r <= groups.gridSize(); r++){
-				for(int c = 1; c <= groups.gridSize(); c++){
+			for(int r = 1; r <= gridSize; r++){
+				for(int c = 1; c <= gridSize; c++){
 					
 					// If the group of the square in the row "r" and column "c" is 0, it doesn't belong to a group
 					if (groups.groupOfSquare(r, c) == 0)
@@ -466,15 +469,19 @@ public class SumdokuTest {
 
 		public static boolean hasEmptyGroup(GridGroups groups){
 
+			// We store the grid size and the number of groups in a variable in order to optimize the speed of the code
+			int gridSize = groups.gridSize(); 
+			int numberOfGroups = groups.numberOfGroups();
+
 			boolean gEmpty; // We define a variable that will track if a group (g) is empty or not
 			
 			// We'll go through every group number
-			for(int g = 1; g <= groups.numberOfGroups(); g++){
+			for(int g = 1; g <= numberOfGroups; g++){
 				gEmpty = true; // We start stating that the group is empty
 
 				// We'll go through every square while the group is empty ("gEmpty == true")
-				for(int r = 1; r <= groups.gridSize() && gEmpty; r++){
-					for(int c = 1; c <= groups.gridSize() && gEmpty; c++){
+				for(int r = 1; r <= gridSize && gEmpty; r++){
+					for(int c = 1; c <= gridSize && gEmpty; c++){
 						// We verify if the group of the square is the group we're working with at the moment
 						if (groups.groupOfSquare(r, c) == g)
 							gEmpty = false; // If the group of the square is the one we're working with, we'll state the group isn't empty anymore
@@ -493,8 +500,27 @@ public class SumdokuTest {
 			return true;
 		}
 
-		public static String cluesToString(SumdokuGrid obj1, GridGroups obj2){
-			return "a";
+		public static String cluesToString(SumdokuGrid grid, GridGroups groups){
+
+			// We store the grid size and the number of groups in a variable in order to optimize the speed of the code
+			int gridSize = groups.gridSize(); 
+			int numberOfGroups = groups.numberOfGroups();
+
+			StringBuilder result = new StringBuilder("Soma das casas:");
+			int count = 0;
+
+			for(int g = 1; g <= numberOfGroups; g++){
+				count = 0;
+				for(int r = 1; r <= gridSize; r++){
+					for(int c = 1; c <= gridSize; c++){
+						if (groups.groupOfSquare(r, c) == g)
+							count += grid.value(r, c);
+					}
+				}
+				result.append(" G" + g + " = " + count);
+			}
+			result.append(" \n");
+			return result.toString();
 		}
 
 		public static void readGrid(int size, Scanner obj1){
