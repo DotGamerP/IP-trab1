@@ -414,17 +414,7 @@ public class SumdokuTest {
 		
 			int rowRepeated = 0;
 
-			for(int i = 1; i <= gridSize; i++)
-				for(int j = 1; j < gridSize; j++)
-					for(int k = 2; k <= gridSize; k++)
-
-						if(grid.value(i, j) == grid.value(i, k))
-							rowRepeated--;
-
-			if(rowRepeated < 0)
-				return true;
-
-			else 
+			if(grid == null || gridSize <= 0)
 				return false;
 
 			
