@@ -374,6 +374,10 @@ public class SumdokuTest {
 
 	public class Sumdoku {
 
+		public static void main(String[] args){
+			//
+		}
+
 		public static int rowOfSquare(int square, int gridSize){
 
 			/*
@@ -409,9 +413,7 @@ public class SumdokuTest {
 			int rowRepeated = 0;
 
 			for(int i = 1; i <= gridSize; i++)
-
 				for(int j = 1; j < gridSize; j++)
-
 					for(int k = 2; k <= gridSize; k++)
 
 						if(grid.value(i, j) == grid.value(i, k))
@@ -478,10 +480,10 @@ public class SumdokuTest {
 			// We'll go through every group number
 			for(int g = 1; g <= numberOfGroups; g++){
 				gEmpty = true; // We start stating that the group is empty
-
 				// We'll go through every square while the group is empty ("gEmpty == true")
 				for(int r = 1; r <= gridSize && gEmpty; r++){
 					for(int c = 1; c <= gridSize && gEmpty; c++){
+
 						// We verify if the group of the square is the group we're working with at the moment
 						if (groups.groupOfSquare(r, c) == g)
 							gEmpty = false; // If the group of the square is the one we're working with, we'll state the group isn't empty anymore
@@ -506,21 +508,28 @@ public class SumdokuTest {
 			int gridSize = groups.gridSize(); 
 			int numberOfGroups = groups.numberOfGroups();
 
+			// We'll create a StringBuilder in order to update the result constantly and a sum variable to track the sum of each group
 			StringBuilder result = new StringBuilder("Soma das casas:");
-			int count = 0;
+			int sum = 0;
 
+			// We'll go through every possible group
 			for(int g = 1; g <= numberOfGroups; g++){
-				count = 0;
+				// We start setting the sum to 0
+				sum = 0;
+				// We'll go through every possible square
 				for(int r = 1; r <= gridSize; r++){
 					for(int c = 1; c <= gridSize; c++){
+
+						// We verify if the square is part of the group we're working with at the moment
 						if (groups.groupOfSquare(r, c) == g)
-							count += grid.value(r, c);
+							sum += grid.value(r, c); // If the square is part of the group we're working with, we add the value of that square to sum
 					}
 				}
-				result.append(" G" + g + " = " + count);
+				// After doing the sum of the values in the group, we add it to the StringBuilder result with the right format
+				result.append(" G" + g + " = " + sum);
 			}
-			result.append(" \n");
-			return result.toString();
+			result.append(" \n"); // We finalize the StringBuilder result with a space (required by SumdokuTest.java) and a line break
+			return result.toString(); // We return the StringBuilder result converted to String
 		}
 
 		public static void readGrid(int size, Scanner obj1){
@@ -531,13 +540,34 @@ public class SumdokuTest {
 			//
 		}
 
-		//falta mais
-
-		public static boolean puzzleSolved(SumdokuGrid playedGrid, SumdokuGrid grid){
-			return true;
+		public static SumdokuGrid getBuiltInGrid(int size){
+			return new SumdokuGrid(2);
 		}
 
-		//falta mais
+		public static GridGroups getBuiltInGroups(int size){
+			return new GridGroups(2, 3);
+		}
+
+		public static boolean puzzleSolved(SumdokuGrid playedGrid, SumdokuGrid grid){
+
+			// We store the grid size in a variable in order to optimize the speed of the code
+			int gridSize = grid.size(); 
+			
+			// We'll go through every possible square
+			for(int r = 1; r <= gridSize; r++){
+				for(int c = 1; c <= gridSize; c++){
+
+					// In each square, we'll check if the value in one SumdokuGrid is different than in the other one
+					if(playedGrid.value(r, c) != grid.value(r, c))
+						return false; // If the value of one square differs between the two SumdokuGrid, we'll return false
+				}
+			}
+			return true; // If we don't find any square with a different value in both SumdokuGrid, we'll return true
+		}
+
+		public static void play(SumdokuGrid obj1, GridGroups obj2){
+			//
+		}
 	}
 
 }
