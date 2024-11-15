@@ -556,11 +556,11 @@ public class SumdokuTest {
 			return result.toString(); // We return the StringBuilder result converted to String
 		}
 
-		public static void readGrid(int size, Scanner obj1){
+		public static SumdokuGrid readGrid(int size, Scanner obj1){
 			//
 		}
 
-		public static void readGroups(SumdokuGrid grid, Scanner obj1){
+		public static GridGroups readGroups(SumdokuGrid grid, Scanner sc){
 			//
 		}
 
