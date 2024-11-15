@@ -410,6 +410,8 @@ public class SumdokuTest {
 		public static boolean isValidForPuzzle(SumdokuGrid grid){
 
 			int gridSize = grid.size();
+
+		
 			int rowRepeated = 0;
 
 			for(int i = 1; i <= gridSize; i++)
@@ -424,6 +426,38 @@ public class SumdokuTest {
 
 			else 
 				return false;
+
+			
+			// Para verificar se o número de cada posição está repetida em cada linha
+			for(int row = 1; row <= gridSize; row++) {
+
+				for(int col = 1; col < gridSize; col++) {
+
+					int value = grid.value(row, col);
+
+					if(grid.value(row, col) < 1 || grid.value(row, col) > gridSize)
+						return false;
+
+					if(value == grid.value(row, col + 1))
+						return false;
+				}
+			}
+
+			// Para verificar se o número de cada posição está repetida em cada coluna
+			for(int col = 1; col <= gridSize; col++) {
+
+				for(int row = 1; row < gridSize; row++) {
+
+					int value = grid.value(row, col);
+
+					if(value == grid.value(row + 1, col))
+						return false;
+
+				}
+			}
+			
+			// Caso nenhuma destas condições sejam acionadas então o puzzle é válido
+			return true;
 		}
 
 		public static boolean isValidForPuzzle(GridGroups groups){
