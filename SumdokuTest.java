@@ -551,7 +551,7 @@ public class SumdokuTest {
 		}
 
 		public static SumdokuGrid readGrid(int size, Scanner obj1){
-			//
+			return new SumdokuGrid(3);
 		}
 
 		public static GridGroups readGroups(SumdokuGrid grid, Scanner sc){
@@ -560,20 +560,8 @@ public class SumdokuTest {
 			int gridSize = grid.size(); 
 			int numOfSquares = gridSize*gridSize;
 
-			// We ask and get the total number of groups
-			int numOfGroups = askAndGetNumOfGroups(sc);
-			// We must verify if the number of groups isn't between 1 and the number of squares (isn't valid)
-			while (numOfGroups < 1 || numOfGroups > numOfSquares){
-				// If the number of groups isn't valid, we warn the user and define the number again
-				System.out.println("Valor invalido. Tem de estar entre 1 e " + numOfSquares + ".");
-				// This time, we mustn't ask for the number of groups, instead we'll expect the user to directly put it (following the instructions of this project)
-				numOfGroups = sc.nextInt();
-			}
-
-			/*-----------------------------------------------  NOTE:  -------------------------------------------------------------
-			| why is better while than do-while in this case                           |
-			| xxxxxxxxx |
-			---------------------------------------------------------------------------------------------------------------------*/
+			// We ask and get the total number of groups (the function already does the verification that the group is between 1 and "numOfSquares")
+			int numOfGroups = askAndGetNumOfGroups(sc, numOfSquares);
 
 			GridGroups finalGridGroups = new GridGroups(gridSize, numOfGroups); // Now we can create the GridGroups that will be returned at the end
 
@@ -583,22 +571,65 @@ public class SumdokuTest {
 
 			// We'll go through every group
 			for(int g = 1; g <= numOfGroups; g++){
-				// We'll ask and store the size of the group we're working with
+				// We'll ask and get the size of the group we're working with
 				groupSize = askAndGetSizeOfGroup(sc, g);
 				// Now, we'll simply ask which square belong to the group (we'll repeat it "groupSize" times)
 				for(int i = 0; i < groupSize; i++){
-					// We'll ask and store the square we want to put in the group we're working with
-					square = askAndGetSquare(sc);
-					// We must verify if the square isn't between 1 and the number of squares (isn't valid)
-					while(square < 1 || square > numOfSquares) {
-						// If the square isn't valid, we warn the user and define the square again
-						System.out.println("Valor invalido")
-						// This time, we mustn't ask for the square, instead we'll expect the user to directly put it (following the instructions of this project)
-						square = sc.nextInt();
-					}
+					// We'll ask and get the square we want to put in the group we're working with (the function already does the verification that the square is between 1 and "numOfSquares")
+					square = askAndGetSquare(sc, numOfSquares);
+					// We'll add the square to the group we're working with
+					finalGridGroups.addSquareToGroup(rowOfSquare(square, gridSize), columnOfSquare(square, gridSize), g);
 				}
 			}
 
+			// After doing the groups, we're now able to send a GridGroups that MUST BE VERIFIED (because it might have empty groups, squares in no group...)
+			return finalGridGroups;
+
+		}
+
+		private static int askAndGetNumOfGroups(Scanner sc, int numOfSquares){
+			
+			// We'll print the text for the user
+			System.out.println("Número de grupos?");
+			// We store the number of groups through the Scanner "sc"
+			int numOfGroups = sc.nextInt();
+
+			// We must verify if the number of groups isn't between 1 and the number of squares (isn't valid)
+			while (numOfGroups < 1 || numOfGroups > numOfSquares){
+				// If the number of groups isn't valid, we warn the user and define the number again
+				System.out.println("Valor invalido. Tem de estar entre 1 e " + numOfSquares + ".");
+				// This time, we mustn't ask for the number of groups, instead we'll expect the user to directly put it (following the instructions of this project)
+				numOfGroups = sc.nextInt();
+			}
+			return numOfGroups; // We finally return the verified number of groups
+		}
+
+		private static int askAndGetSizeOfGroup(Scanner sc, int g){
+
+			// We'll print the text for the user
+			System.out.print("Tamanho do grupo " + g + "? ");
+			// We store the group size through the Scanner "sc"
+			int groupSize = sc.nextInt();
+
+			return groupSize; // We finally return the size of the group "g"
+		}
+
+		private static int askAndGetSquare(Scanner sc, int numOfSquares){
+
+			// We'll print the text for the user
+			System.out.println("Casa? ");
+			// We store the group size through the Scanner "sc"
+			int square = sc.nextInt();
+
+			// We must verify if the square isn't between 1 and the number of squares (isn't valid)
+			while(square < 1 || square > numOfSquares) {
+				// If the square isn't valid, we warn the user and define the square again
+				System.out.println("Valor invalido. Tem de estar entre 1 e " + numOfSquares + ".");
+				// This time, we mustn't ask for the square, instead we'll expect the user to directly put it (following the instructions of this project)
+				square = sc.nextInt();
+			}
+
+			return square; // We finally return the verified square
 		}
 
 		public static SumdokuGrid getBuiltInGrid(int size){
