@@ -466,12 +466,6 @@ public class SumdokuTest {
 			} else {			
 				return true; // The object is valid (we'll return true)
 			}
-
-			/*-----------------------------------------------  NOTE:  -------------------------------------------------------------
-			| If we used "&&" ("and" statements) the machine would need to verify each condition.                                 |
-			| When using "||" ("or" statements) the machine stops at the moment one single condition is true. -> [More efficient] |
-			---------------------------------------------------------------------------------------------------------------------*/
-
 		}
 
 		public static boolean isEverySquareInGroup(GridGroups groups){
@@ -561,7 +555,23 @@ public class SumdokuTest {
 		}
 
 		public static GridGroups readGroups(SumdokuGrid grid, Scanner sc){
-			//
+
+			// We store the grid size and number of squares in a variable in order to optimize the speed of the code
+			int gridSize = grid.size(); 
+			int numOfSquares = gridSize*gridSize;
+
+			// We ask and get the total number of groups
+			int numOfGroups = askAndGetNumOfGroups(sc);
+			while (numOfGroups < 1 || numOfGroups > numOfSquares){
+				System.out.println("Valor invalido. Tem de estar entre 1 e " + numOfSquares + ".");
+
+			}
+
+			/*-----------------------------------------------  NOTE:  -------------------------------------------------------------
+			| xxxxxxxxxxxxxx                           |
+			| xxxxxxxxx |
+			---------------------------------------------------------------------------------------------------------------------*/
+
 		}
 
 		public static SumdokuGrid getBuiltInGrid(int size){
