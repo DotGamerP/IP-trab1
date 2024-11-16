@@ -14,7 +14,7 @@ import java.util.Scanner;
  * 		Execute: java -cp "SumdokuLib.jar;." Sumdoku
  * 
  * @author Pedro Reinaldo Mendes - nº63729
- * @author Tiago Costa - nºYYYYYYYYYYYYY
+ * @author Tiago Costa - nº63718
  * @version 1.0
  */  
 public class Sumdoku {
