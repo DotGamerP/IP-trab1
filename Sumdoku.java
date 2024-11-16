@@ -292,18 +292,25 @@ public class Sumdoku {
     public static SumdokuGrid readGrid(int size, Scanner leitor){
 
         int valueOfSquare = 0;
-        int square = 1;
+        int square = 0;
         System.out.print("Leitura do puzzle.\nTamanho da grelha? ");
         size = leitor.nextInt();
+        SumdokuGrid finalSumdokuGrid = new SumdokuGrid(size);
         int numOfSquares = size * size;
 
-        while(square < numOfSquares && valueOfSquare >= 1 && valueOfSquare <= size) {
+        for(int row = 1; row <= size; row++) {
 
+            for(int col = 1; col <= size; col++) {
+
+            square++;
             System.out.println("Casa " + square + ": ");
             valueOfSquare = leitor.nextInt();
-            square++;
-            
+            finalSumdokuGrid.addSquareToGroup(rowOfSquare(square, size), columnOfSquare(square, size), g);
+
+            }
         }
+
+        return finalSumdokuGrid;
     }
 
     public static GridGroups readGroups(SumdokuGrid grid, Scanner sc){
