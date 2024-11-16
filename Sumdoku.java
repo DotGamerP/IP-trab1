@@ -24,6 +24,7 @@ public class Sumdoku {
         // We create the scanner variable that we'll be using and the gridSize that'll be either asked or directly from an argument
         Scanner sc = new Scanner(System.in);
         int gridSize;
+        // Also, we create the puzzle's SumdokuGrid and GridGroups that will be used to play
         SumdokuGrid puzzleGrid;
         GridGroups puzzleGroups;
 
@@ -78,7 +79,7 @@ public class Sumdoku {
         return puzzleGrid; // We finally return the verified grid
     }
 
-    private static SumdokuGrid verifyAndReadGroups(SumdokuGrid grid, Scanner sc){
+    private static GridGroups verifyAndReadGroups(SumdokuGrid grid, Scanner sc){
 
         // We read the groups
         GridGroups puzzleGroups = readGroups(grid, sc);
@@ -88,7 +89,7 @@ public class Sumdoku {
             System.out.println("Os grupos inseridos são inválidos. Recomece.");
             puzzleGroups = readGroups(grid, sc);
         }
-        return puzzleGroups; // We finally return the verified grid
+        return puzzleGroups; // We finally return the verified groups
     }
 
     public static int rowOfSquare(int square, int gridSize){
