@@ -20,32 +20,13 @@ import java.util.Scanner;
 public class Sumdoku {
 
     /**
-     * The main entry point of the program. Handles the initialization and execution
-     * of the Sumdoku puzzle game. It determines whether the grid size and puzzle 
-     * configuration are provided as command-line arguments or need to be read from 
-     * the user, validates the inputs, and starts the game.
+     * Entry point for the Sumdoku game. Handles both user-input 
+     * puzzles and predefined puzzles based on the first argument.
      *
-     * @param args command-line arguments, where the first argument (if present) 
-     *             specifies the grid size of the puzzle. If no arguments are provided, 
-     *             the puzzle configuration is read from user input.
-     *
-     * Key actions:
-     * <ul>
-     *   <li>If no arguments are passed:
-     *     <ol>
-     *       <li>Prompts the user to enter the grid size.</li>
-     *       <li>Reads and validates the Sumdoku grid and its groups.</li>
-     *       <li>Starts the game with the user-defined puzzle.</li>
-     *     </ol>
-     *   </li>
-     *   <li>If a valid argument is passed:
-     *     <ol>
-     *       <li>Uses a predefined puzzle configuration based on the argument.</li>
-     *       <li>Starts the game with the predefined puzzle.</li>
-     *     </ol>
-     *   </li>
-     *   <li>Displays an error message if the grid size is invalid or unsupported.</li>
-     * </ul>
+     * @param args command-line arguments: The first argument (if provided) specifies the grid size of the default puzzle the user's going to resolve in the game
+     * @requires The first argument (if provided) must be a positive integer
+     * @ensures Initializes and runs the Sumdoku puzzle game or displays an error for invalid input.
+     * @return Does not return a value.
      */
     public static void main(String[] args){
 
