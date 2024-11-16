@@ -281,7 +281,7 @@ public class Sumdoku {
         return result.toString(); // We return the StringBuilder result converted to String
     }
 
-    public static void readGrid(int size, Scanner leitor){
+    public static SumdokuGrid readGrid(int size, Scanner leitor){
 
         int value = 0;
 
