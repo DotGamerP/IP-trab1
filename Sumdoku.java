@@ -20,6 +20,18 @@ import java.util.Scanner;
 public class Sumdoku {
 
     public static void main(String[] args){
+
+        Scanner sc = new Scanner(System.in);
+        if (args.length == 0) {
+            System.out.println("Leitura do puzzle.");
+            int gridSize = askAndGetGridSize(sc);
+            SumdokuGrid puzzleGrid = readGrid(gridSize, sc);
+            GridGroups puzzleGridGroups = readGroups(puzzleGrid, sc);
+            
+        }
+    }
+
+    private static int askAndGetGridSize(Scanner sc){
         //
     }
 
