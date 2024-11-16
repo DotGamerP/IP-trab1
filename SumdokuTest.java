@@ -403,7 +403,7 @@ public class SumdokuTest {
 
 		}
 
-		public static boolean isValidForPuzzle(SumdokuGrid grid){
+		public static boolean isValidForPuzzle(SumdokuGrid grid) {
 
 			int gridSize = grid.size();
 
@@ -412,28 +412,28 @@ public class SumdokuTest {
 
 			
 			// Para verificar se o número de cada posição está repetida em cada linha
-			for(int row = 1; row <= gridSize; row++) {
+			for(int r = 1; r <= gridSize; r++) {
 
-				for(int col = 1; col < gridSize; col++) {
+				for(int c = 1; c < gridSize; c++) {
 
-					int value = grid.value(row, col);
+					int value = grid.value(r, c);
 
-					if(grid.value(row, col) < 1 || grid.value(row, col) > gridSize)
+					if(grid.value(r, c) < 1 || grid.value(r, c) > gridSize)
 						return false;
 
-					if(value == grid.value(row, col + 1))
+					if(value == grid.value(r, c + 1))
 						return false;
 				}
 			}
 
 			// Para verificar se o número de cada posição está repetida em cada coluna
-			for(int col = 1; col <= gridSize; col++) {
+			for(int c = 1; c <= gridSize; c++) {
 
-				for(int row = 1; row < gridSize; row++) {
+				for(int r = 1; r < gridSize; r++) {
 
-					int value = grid.value(row, col);
+					int value = grid.value(r, c);
 
-					if(value == grid.value(row + 1, col))
+					if(value == grid.value(r + 1, c))
 						return false;
 
 				}
@@ -467,7 +467,7 @@ public class SumdokuTest {
 
 		}
 
-		public static boolean isEverySquareInGroup(GridGroups groups){
+		public static boolean isEverySquareInGroup(GridGroups groups) {
 
 			// We store the grid size in a variable in order to optimize the speed of the code
 			int gridSize = groups.gridSize(); 
@@ -515,8 +515,17 @@ public class SumdokuTest {
 
 		}
 
-		public static boolean definesPuzzle(SumdokuGrid obj1, GridGroups obj2){
-			return true;
+		public static boolean definesPuzzle(SumdokuGrid grid, GridGroups groups){
+			
+			int size = grid.size();
+			int gridSize = groups.gridSize();
+			boolean validPuzzle = gridSize != size || groups.numberOfGroups() < 2;
+
+			if(validPuzzle)
+				return false;
+
+			else
+				return true;
 		}
 
 		public static String cluesToString(SumdokuGrid grid, GridGroups groups){
@@ -542,11 +551,22 @@ public class SumdokuTest {
 			return result.toString();
 		}
 
-		public static void readGrid(int size, Scanner obj1){
-			//
+		public static void readGrid(int size, Scanner leitor){
+
+			int value = 0;
+
+			System.out.print("Leitura do puzzle.\nTamanho da grelha: ");
+			size = leitor.nextInt();
+
+			for(int casa = 1; casa <= size * size; casa++) {
+
+				System.out.println("Casa " + casa + ": ");
+				value = leitor.nextInt();
+				
+			}
 		}
 
-		public static void readGroups(SumdokuGrid grid, Scanner obj1){
+		public static void readGroups(SumdokuGrid grid, Scanner leitor){
 			//
 		}
 
