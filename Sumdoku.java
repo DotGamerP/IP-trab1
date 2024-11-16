@@ -58,7 +58,11 @@ public class Sumdoku {
     }
 
     private static int askAndGetGridSize(Scanner sc){
-        //
+        
+        // We'll ask the grid size
+        System.out.print("Tamanho da grelha? ");
+        // We return the input from the user
+        return sc.nextInt(); 
     }
 
     private static SumdokuGrid verifyAndReadGrid(int gridSize, Scanner sc){
