@@ -1,19 +1,21 @@
 import java.util.Scanner;
 
 /**
- * The {@code Sumdoku} tests some functions and other procedures of  
- * {@code Sumdoku} class, according to IP first coding project. 
+ * The {@code Sumdoku} consists in the class which contains the full project.
  * 
- * 		Compile: javac -cp  SumdokuLib.jar   Sumdoku.java SumdokuTest.java
- * 		Execute: java  -cp  SumdokuLib.jar:. SumdokuTest
+ * This is the first project of 2024 in IP (Introdução à Programação) on FCUL (Faculdade de Ciências - Universidade de Lisboa)
  * 
+ * 		IN LINUX:
+ *      Compile: javac -cp SumdokuLib.jar Sumdoku.java 
+ * 		Execute: java  -cp  SumdokuLib.jar:. Sumdoku
  * 
  * 		IN WINDOWS:
- * 		Compile: javac -cp SumdokuLib.jar SumdokuTest.java
- * 		Execute: java -cp "SumdokuLib.jar;." SumdokuTest
+ * 		Compile: javac -cp SumdokuLib.jar Sumdoku.java
+ * 		Execute: java -cp "SumdokuLib.jar;." Sumdoku
  * 
- * @author malopes IP2425@LEI-FCUL 
- * @version 1
+ * @author Pedro Reinaldo Mendes - nº63729
+ * @author Tiago Costa - nºYYYYYYYYYYYYY
+ * @version 1.0
  */  
 public class Sumdoku {
 
