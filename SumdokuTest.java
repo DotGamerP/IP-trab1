@@ -573,7 +573,7 @@ public class SumdokuTest {
 			// We ask and get the total number of groups (the function already does the verification that the group is between 1 and "numOfSquares")
 			int numOfGroups = askAndGetNumOfGroups(sc, numOfSquares);
 
-			GridGroups finalGridGroups = new GridGroups(gridSize, numOfGroups); // Now we can create the GridGroups that will be returned at the end
+			GridGroups finalGridGroups = new GridGrquerooups(gridSize, numOfGroups); // Now we can create the GridGroups that will be returned at the end
 
 			// We create a two variables that will keep track of each group's size and each square
 			int groupSize; 

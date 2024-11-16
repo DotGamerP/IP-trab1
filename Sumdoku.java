@@ -24,26 +24,44 @@ public class Sumdoku {
         // We create the scanner variable that we'll be using and the gridSize that'll be either asked or directly from an argument
         Scanner sc = new Scanner(System.in);
         int gridSize;
+        SumdokuGrid puzzleGrid;
+        GridGroups puzzleGroups;
 
         // We must verify if the user defined the grid size in the arguments or not
-        if (args.length == 0) {
+        if (args.length == 0){
             // If there are no arguments, we'll indicate to the user that we'll be reading his new puzzle...
             System.out.println("Leitura do puzzle."); 
             // We ask and get the grid size
             gridSize = askAndGetGridSize(sc);
             // We read the grid and verify it
-            SumdokuGrid puzzleGrid = verifyAndReadGrid(gridSize, sc);
-            
-            GridGroups puzzleGroups = readGroups(puzzleGrid, sc);
+            puzzleGrid = verifyAndReadGrid(gridSize, sc);
+            // We read the groups and verify them
+            puzzleGroups = verifyAndReadGroups(puzzleGrid, sc);
+            // We end the puzzle creation with a line break
+            System.out.println("");
 
+            // Once we have the value of "gridSize" and the grid/groups of the puzzle, because the user wrote it, we can play
+            play(puzzleGrid, puzzleGroups, gridSize*gridSize, sc);
+        } else if (getBuiltInGrid(args[0]) == null || getBuiltInGroups(args[0]) == null){
+
+            System.out.println("Tamanho da grelha inválido ou não suportado.");
+        } else {
+            
+            // If we have a valid int argument, we'll use our default puzzle...
+            puzzleGrid = getBuiltInGrid(args[0]);
+            puzzleGroups = getBuiltInGroups(args[0]);
+            // Once we have the value of "gridSize" and the grid/groups default of the puzzle, because it was in the argument, we can play
+            play(puzzleGrid, puzzleGroups, gridSize*gridSize, sc);
         }
+
+        
     }
 
     private static int askAndGetGridSize(Scanner sc){
         //
     }
 
-    private static SumdokuGrid(int gridSize, Scanner sc){
+    private static SumdokuGrid verifyAndReadGrid(int gridSize, Scanner sc){
 
         // We read the grid
         SumdokuGrid puzzleGrid = readGrid(gridSize, sc);
@@ -54,6 +72,19 @@ public class Sumdoku {
             puzzleGrid = readGrid(gridSize, sc);
         }
         return puzzleGrid; // We finally return the verified grid
+    }
+
+    private static SumdokuGrid verifyAndReadGroups(SumdokuGrid grid, Scanner sc){
+
+        // We read the groups
+        GridGroups puzzleGroups = readGroups(grid, sc);
+        // We verify if it's a valid grid
+        while (!isValidForPuzzle(puzzleGroups)) {
+            // If it's not valid for a puzzle we must tell him and start reading the groups again
+            System.out.println("Os grupos inseridos são inválidos. Recomece.");
+            puzzleGroups = readGroups(grid, sc);
+        }
+        return puzzleGroups; // We finally return the verified grid
     }
 
     public static int rowOfSquare(int square, int gridSize){
@@ -85,7 +116,7 @@ public class Sumdoku {
 
     }
 
-    public static boolean isValidForPuzzle(SumdokuGrid grid) {
+    public static boolean isValidForPuzzle(SumdokuGrid grid){
 
         int gridSize = grid.size();
 
