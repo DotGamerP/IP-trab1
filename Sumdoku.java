@@ -19,6 +19,34 @@ import java.util.Scanner;
  */  
 public class Sumdoku {
 
+    /**
+     * The main entry point of the program. Handles the initialization and execution
+     * of the Sumdoku puzzle game. It determines whether the grid size and puzzle 
+     * configuration are provided as command-line arguments or need to be read from 
+     * the user, validates the inputs, and starts the game.
+     *
+     * @param args command-line arguments, where the first argument (if present) 
+     *             specifies the grid size of the puzzle. If no arguments are provided, 
+     *             the puzzle configuration is read from user input.
+     *
+     * Key actions:
+     * <ul>
+     *   <li>If no arguments are passed:
+     *     <ol>
+     *       <li>Prompts the user to enter the grid size.</li>
+     *       <li>Reads and validates the Sumdoku grid and its groups.</li>
+     *       <li>Starts the game with the user-defined puzzle.</li>
+     *     </ol>
+     *   </li>
+     *   <li>If a valid argument is passed:
+     *     <ol>
+     *       <li>Uses a predefined puzzle configuration based on the argument.</li>
+     *       <li>Starts the game with the predefined puzzle.</li>
+     *     </ol>
+     *   </li>
+     *   <li>Displays an error message if the grid size is invalid or unsupported.</li>
+     * </ul>
+     */
     public static void main(String[] args){
 
         // We create the scanner variable that we'll be using and the gridSize that'll be either asked or directly from an argument
@@ -47,7 +75,7 @@ public class Sumdoku {
 
         } else {
             // We store the first argument as an integer in a variable
-            int x = Integer.parseInt(args[0])
+            int x = Integer.parseInt(args[0]);
 
             if (getBuiltInGrid(x) == null || getBuiltInGroups(x) == null){
                 // If we don't have any default puzzle for the size, we'll tell the user that it's not valid and end the program
@@ -57,6 +85,8 @@ public class Sumdoku {
                 // If we have a valid int argument, we'll use our default puzzle...
                 puzzleGrid = getBuiltInGrid(x);
                 puzzleGroups = getBuiltInGroups(x);
+                // Now, we can obtain the grid size from the puzzle grid
+                gridSize = puzzleGrid.size();
                 // Once we have the value of "gridSize" and the grid/groups default of the puzzle, because it was in the argument, we can play
                 play(puzzleGrid, puzzleGroups, gridSize*gridSize, sc);
             }
@@ -378,7 +408,7 @@ public class Sumdoku {
 
         // If we have a default grid created for a specific size, then we'll return it. Else, we'll return null as a representation of "not valid".
         if (size == 3) {
-            SumdokuGrid grid = new SumdokuGrid(3, 5);
+            SumdokuGrid grid = new SumdokuGrid(3);
 
             grid.fill(1, 1, 3);
             grid.fill(1, 2, 1);
