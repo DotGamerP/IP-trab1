@@ -142,8 +142,6 @@ public class Sumdoku {
     public static boolean isValidForPuzzle(SumdokuGrid grid){
 
         int gridSize = grid.size();
-
-    
         int rowRepeated = 0;
 
         if(grid == null || gridSize <= 0)
@@ -293,15 +291,17 @@ public class Sumdoku {
 
     public static SumdokuGrid readGrid(int size, Scanner leitor){
 
-        int value = 0;
-
-        System.out.print("Leitura do puzzle.\nTamanho da grelha: ");
+        int valueOfSquare = 0;
+        int square = 1;
+        System.out.print("Leitura do puzzle.\nTamanho da grelha? ");
         size = leitor.nextInt();
+        int numOfSquares = size * size;
 
-        for(int casa = 1; casa <= size * size; casa++) {
+        while(square < numOfSquares && valueOfSquare >= 1 && valueOfSquare <= size) {
 
-            System.out.println("Casa " + casa + ": ");
-            value = leitor.nextInt();
+            System.out.println("Casa " + square + ": ");
+            valueOfSquare = leitor.nextInt();
+            square++;
             
         }
     }
