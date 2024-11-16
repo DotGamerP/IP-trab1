@@ -43,7 +43,7 @@ public class Sumdoku {
         //
     }
 
-    private static readGrid(int gridSize, Scanner sc){
+    private static SumdokuGrid(int gridSize, Scanner sc){
 
         // We read the grid
         SumdokuGrid puzzleGrid = readGrid(gridSize, sc);
