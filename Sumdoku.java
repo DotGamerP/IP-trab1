@@ -293,8 +293,6 @@ public class Sumdoku {
 
         int valueOfSquare = 0;
         int square = 0;
-        System.out.print("Leitura do puzzle.\nTamanho da grelha? ");
-        size = leitor.nextInt();
         SumdokuGrid finalSumdokuGrid = new SumdokuGrid(size);
         int numOfSquares = size * size;
 
@@ -305,7 +303,7 @@ public class Sumdoku {
             square++;
             System.out.println("Casa " + square + ": ");
             valueOfSquare = leitor.nextInt();
-            finalSumdokuGrid.addSquareToGroup(rowOfSquare(square, size), columnOfSquare(square, size), g);
+            finalSumdokuGrid.fill(row, col, valueOfSquare);
 
             }
         }
