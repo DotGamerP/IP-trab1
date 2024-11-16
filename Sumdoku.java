@@ -26,7 +26,6 @@ public class Sumdoku {
      * @param args command-line arguments: The first argument (if provided) specifies the grid size of the default puzzle the user's going to resolve in the game
      * @requires The first argument (if provided) must be a positive integer
      * @ensures Initializes and runs the Sumdoku puzzle game or displays an error for invalid input.
-     * @return Does not return a value.
      */
     public static void main(String[] args){
 
