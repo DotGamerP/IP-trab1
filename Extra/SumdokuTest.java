@@ -1,4 +1,3 @@
-package Extra;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -559,20 +558,10 @@ public class SumdokuTest {
 			result.append(" \n"); // We finalize the StringBuilder result with a space (required by SumdokuTest.java) and a line break
 			return result.toString(); // We return the StringBuilder result converted to String
 		}
+		
 
-		public static void readGrid(int size, Scanner leitor){
-
-			int value = 0;
-
-			System.out.print("Leitura do puzzle.\nTamanho da grelha: ");
-			size = leitor.nextInt();
-
-			for(int casa = 1; casa <= size * size; casa++) {
-
-				System.out.println("Casa " + casa + ": ");
-				value = leitor.nextInt();
-				
-			}
+		public static SumdokuGrid readGrid(int size, Scanner obj1){
+			return new SumdokuGrid(3);
 		}
 
 		public static GridGroups readGroups(SumdokuGrid grid, Scanner sc){
@@ -605,7 +594,6 @@ public class SumdokuTest {
 
 			// After doing the groups, we're now able to send a GridGroups that MUST BE VERIFIED (because it might have empty groups, squares in no group...)
 			return finalGridGroups;
-
 		}
 
 		private static int askAndGetNumOfGroups(Scanner sc, int numOfSquares){
