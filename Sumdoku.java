@@ -26,8 +26,8 @@ public class Sumdoku {
             System.out.println("Leitura do puzzle.");
             int gridSize = askAndGetGridSize(sc);
             SumdokuGrid puzzleGrid = readGrid(gridSize, sc);
-            GridGroups puzzleGridGroups = readGroups(puzzleGrid, sc);
-            
+            GridGroups puzzleGroups = readGroups(puzzleGrid, sc);
+
         }
     }
 
@@ -334,7 +334,7 @@ public class Sumdoku {
         return true; // If we don't find any square with a different value in both SumdokuGrid, we'll return true
     }
 
-    public static void play(SumdokuGrid obj1, GridGroups obj2){
+    public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner sc){
         //
     }
 }
