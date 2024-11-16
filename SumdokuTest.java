@@ -468,11 +468,7 @@ public class SumdokuTest {
 			}
 		}
 
-<<<<<<< HEAD
-		public static boolean isEverySquareInGroup(GridGroups groups) {
-=======
 		private static boolean isEverySquareInGroup(GridGroups groups){
->>>>>>> c15c90857e56e56befefcd895dbf24d0e91ae02b
 
 			// We store the grid size in a variable in order to optimize the speed of the code
 			int gridSize = groups.gridSize(); 
@@ -563,7 +559,6 @@ public class SumdokuTest {
 			return result.toString(); // We return the StringBuilder result converted to String
 		}
 
-<<<<<<< HEAD
 		public static void readGrid(int size, Scanner leitor){
 
 			int value = 0;
@@ -577,13 +572,6 @@ public class SumdokuTest {
 				value = leitor.nextInt();
 				
 			}
-		}
-
-		public static void readGroups(SumdokuGrid grid, Scanner leitor){
-			//
-=======
-		public static SumdokuGrid readGrid(int size, Scanner obj1){
-			return new SumdokuGrid(3);
 		}
 
 		public static GridGroups readGroups(SumdokuGrid grid, Scanner sc){
@@ -617,7 +605,6 @@ public class SumdokuTest {
 			// After doing the groups, we're now able to send a GridGroups that MUST BE VERIFIED (because it might have empty groups, squares in no group...)
 			return finalGridGroups;
 
->>>>>>> c15c90857e56e56befefcd895dbf24d0e91ae02b
 		}
 
 		private static int askAndGetNumOfGroups(Scanner sc, int numOfSquares){
