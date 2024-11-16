@@ -378,35 +378,61 @@ public class Sumdoku {
 
         // If we have a default grid created for a specific size, then we'll return it. Else, we'll return null as a representation of "not valid".
         if (size == 3) {
-            GridGroups group = new GridGroups(3, 5);
+            SumdokuGrid grid = new SumdokuGrid(3, 5);
 
-            group.addSquareToGroup(1, 1, 1);
-            group.addSquareToGroup(1, 2, 1);
-            group.addSquareToGroup(1, 3, 2);
-            group.addSquareToGroup(2, 1, 1);
-            group.addSquareToGroup(2, 2, 3);
-            group.addSquareToGroup(2, 3, 2);
-            group.addSquareToGroup(3, 1, 4);
-            group.addSquareToGroup(3, 2, 4);
-            group.addSquareToGroup(3, 3, 5);
-            
+            grid.fill(1, 1, 3);
+            grid.fill(1, 2, 1);
+            grid.fill(1, 3, 2);
+            grid.fill(2, 1, 1);
+            grid.fill(2, 2, 2);
+            grid.fill(2, 3, 3);
+            grid.fill(3, 1, 2);
+            grid.fill(3, 2, 3);
+            grid.fill(3, 3, 1);
+
             /*--------------------------------------------------------------------NOTE------------------------------------------------------------------------
             |-> We could definitely use a StringBuilder as an imitation of an array and do this in a more legible way (storing the differents values in it)...|
             |-> Although this would mean a worse efficiency of the code (it would take longer time to execute)                                                |
             |-> We could only do this efficient with an array                                                                                                 |
-            |-> But it's prohibited in this project, so we would mantain the code as it is right now                                                          |
+            |-> But it's prohibited in this project, so we will mantain the code as it is right now                                                          |
             -------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-            return group;
+            return grid; // We finally return the grid
 
         } else {
-            return null;
+            return null; // We end up returning null
 
         }
     }
 
     public static GridGroups getBuiltInGroups(int size){
         // If we have default groups created for a specific size, then we'll return it. Else, we'll return null as a representation of "not valid".
+        if (size == 3) {
+            GridGroups group = new GridGroups(3, 5);
+
+            group.addSquareToGroup(1, 1, 1);
+            group.addSquareToGroup(1, 2, 1);
+            group.addSquareToGroup(1, 3, 3);
+            group.addSquareToGroup(2, 1, 1);
+            group.addSquareToGroup(2, 2, 2);
+            group.addSquareToGroup(2, 3, 3);
+            group.addSquareToGroup(3, 1, 4);
+            group.addSquareToGroup(3, 2, 4);
+            group.addSquareToGroup(3, 3, 5);
+
+            /*--------------------------------------------------------------------NOTE------------------------------------------------------------------------
+            |-> We could definitely use a StringBuilder as an imitation of an array and do this in a more legible way (storing the differents values in it)...|
+            |-> Although this would mean a worse efficiency of the code (it would take longer time to execute)                                                |
+            |-> We could only do this efficient with an array                                                                                                 |
+            |-> But it's prohibited in this project, so we will mantain the code as it is right now                                                          |
+            -------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+            return group; // We finally return the group
+
+        } else {
+            return null; // We end up returning null
+
+        }
     }
 
     public static boolean puzzleSolved(SumdokuGrid playedGrid, SumdokuGrid grid){
