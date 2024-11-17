@@ -605,6 +605,6 @@ public class Sumdoku {
     }
 
     public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner scanner) {
-        /   // 
+           // 
     }
 }
