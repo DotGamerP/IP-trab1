@@ -387,33 +387,37 @@ public class Sumdoku {
     }
     
     /**
-     * Read and construct a GridGroups object based on user input, associating squares to groups in a grid.
+     * Read and construct a SumdokuGrid object based on user input, associating squares to their values.
      *
-     * This method asks the user for the number of groups, the size of each group, and the squares that belong to each group. 
-     * It constructs a GridGroups object with the specified group information and returns it.
-     * 
-     * @param grid The SumdokuGrid containing the values of the squares.
+     * This method prompts the user to input values for each square in the grid and constructs a `SumdokuGrid` object 
+     * by filling each square with the provided values. The grid size is defined by the user input.
+     *
+     * @param size The size of the grid (number of rows and columns in the grid).
      * @param sc The Scanner object used to receive user input.
-     * @requires {@code grid != null && sc != null && grid.size() > 2 && grid.size() < 10 && definesPuzzle(grid, groups)}
+     * @requires {@code size > 2 && size < 10 && leitor != null} 
      * @ensures {@code \result != null} 
-     * @return A GridGroups object containing the group assignments for each square in the grid.
+     * @return A SumdokuGrid object filled with the values provided by the user for each square.
      */
-    public static SumdokuGrid readGrid(int size, Scanner leitor){
+    public static SumdokuGrid readGrid(int size, Scanner sc){
 
-        int valueOfSquare = 0;
+        int valueOfSquare;
         int square = 0;
         SumdokuGrid finalSumdokuGrid = new SumdokuGrid(size);
         int numOfSquares = size * size;
 
         for(int row = 1; row <= size; row++) {
-
             for(int col = 1; col <= size; col++) {
 
             square++;
             System.out.print("Casa " + square + ": ");
-            valueOfSquare = leitor.nextInt();
-            finalSumdokuGrid.fill(row, col, valueOfSquare);
+            valueOfSquare = sc.nextInt();
 
+            while(valueOfSquare < 1 || valueOfSquare > size){
+                System.out.println("Valor invalido. Tem de estar entre 1 e " + size + ".");
+                valueOfSquare = sc.nextInt();
+            }
+
+            finalSumdokuGrid.fill(row, col, valueOfSquare);
             }
         }
 
@@ -494,6 +498,17 @@ public class Sumdoku {
         return numOfGroups; // We finally return the verified number of groups
     }
 
+    /**
+     * Asks the user for the size of a specified group.
+     *
+     * This method prompts the user to input the size of a group and returns the value.
+     *
+     * @param sc The Scanner object used to get the user input.
+     * @param g The group number for which the size is requested.
+     * @requires {@code sc != null && g > 0}
+     * @ensures {@code \result > 0}
+     * @return The size of the specified group provided by the user.
+     */
     private static int askAndGetSizeOfGroup(Scanner sc, int g){
 
         // We'll print the text for the user
@@ -504,6 +519,18 @@ public class Sumdoku {
         return groupSize; // We finally return the size of the group "g"
     }
 
+    /**
+     * Asks the user for a square number and ensures it is within the valid range.
+     *
+     * This method prompts the user to input the number of a square, then verifies if the input is valid.
+     * The valid square number must be between 1 and the total number of squares in the grid.
+     *
+     * @param sc The Scanner object used to get the user input.
+     * @param numOfSquares The total number of squares in the grid, used to define the valid range for the square number.
+     * @requires {@code sc != null && numOfSquares > 0}
+     * @ensures {@code \result >= 1 && \result <= numOfSquares}
+     * @return The valid square number provided by the user.
+     */
     private static int askAndGetSquare(Scanner sc, int numOfSquares){
 
         // We'll print the text for the user
@@ -602,6 +629,6 @@ public class Sumdoku {
 
     public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner sc) {
 
-        
+        System.out.println("Bem vindo ao jogo Sumdoku!\nNeste jogo a grelha tem tamanho " + grid.size() + " e tens estas pistas:");
     }
 }
