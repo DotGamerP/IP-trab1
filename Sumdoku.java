@@ -75,6 +75,14 @@ public class Sumdoku {
         
     }
 
+    /**
+     * Ask and get a grid size
+     *
+     * @param sc Scanner that will be used to obtain the user's response
+     * @requires {@code sc != null}
+     * @ensures {@code \result > 0} // Ensures the grid size is positive
+     * @return the grid size entered by the user
+     */
     private static int askAndGetGridSize(Scanner sc){
         
         // We'll ask the grid size
