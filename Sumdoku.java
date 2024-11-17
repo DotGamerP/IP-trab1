@@ -72,25 +72,45 @@ public class Sumdoku {
             }
         }
 
-        
+        // We end the program by closing our Scanner
+        sc.close();
     }
 
     /**
-     * Ask and get a grid size
+     * Ask and get a grid size (we'll also verify that it's between 3 and 9)
      *
      * @param sc Scanner that will be used to obtain the user's response
      * @requires {@code sc != null}
-     * @ensures {@code \result > 0} // Ensures the grid size is positive
+     * @ensures {@code \result > 0}
      * @return the grid size entered by the user
      */
     private static int askAndGetGridSize(Scanner sc){
         
         // We'll ask the grid size
         System.out.print("Tamanho da grelha? ");
-        // We return the input from the user
-        return sc.nextInt(); 
+        // We get the input of the grid size from the user
+        int gridSize = sc.nextInt(); 
+
+        // We'll verify the gridSize is between 3 and 9
+        while (gridSize < 3 || gridSize > 9){
+            // If the grid size is invalid, we'll warn the user
+            System.out.println("Valor invalido. Tem de estar entre 3 e 9.");
+            // And, this time, we'll simply get directly the new value from the user (as shown when an input is invalid in the "$java Sumdoku"'s project example)
+            gridSize = sc.nextInt();
+        }
+
+        return gridSize; // We finally return the verified grid size
     }
 
+    /**
+     * Verify and read the user's grid
+     *
+     * @param gridSize The size of the grid we want to read
+     * @param sc Scanner that will be used to obtain the user's response
+     * @requires {@code gridSize > 2 && gridSize < 10 && sc != null}
+     * @ensures {@code \result > 0}
+     * @return the grid size entered by the user
+     */
     private static SumdokuGrid verifyAndReadGrid(int gridSize, Scanner sc){
 
         // We read the grid
