@@ -147,20 +147,29 @@ public class Sumdoku {
 
     }
 
-    public static boolean isValidForPuzzle(SumdokuGrid grid){
+    /**
+    * Validates whether a given grid is suitable for a Sumdoku puzzle.
+    * 
+    * @param grid the object type SumdokuGrid that allows the code to use the method size class SumdokuGrid.
+    * @requires {@code grid != null} and {@code grid.size() > 0}.
+    @return {@code true} if the grid is valid for a Sumdoku Puzzle, otherwise it will return {@code false}.
+    */
 
+    public static boolean isValidForPuzzle(SumdokuGrid grid) {
+
+        // Variable to represent the size of the grid
         int gridSize = grid.size();
-        int rowRepeated = 0;
 
+        // In case of grid having a value of null or below or equal to zero, returns zero
         if(grid == null || gridSize <= 0)
             return false;
 
-        
-        // Para verificar se o número de cada posição está repetida em cada linha
+        //To verify if value of each square is the same as any other square on the same line of the grid
         for(int r = 1; r <= gridSize; r++) {
 
             for(int c = 1; c < gridSize; c++) {
 
+                // Variable that represents the number that a certain square has
                 int value = grid.value(r, c);
 
                 if(grid.value(r, c) < 1 || grid.value(r, c) > gridSize)
@@ -188,7 +197,7 @@ public class Sumdoku {
         return true;
     }
 
-    public static boolean isValidForPuzzle(GridGroups groups){
+    public static boolean isValidForPuzzle(GridGroups groups) {
 
         /*
         -> First we'll verify if "groups":
@@ -206,7 +215,7 @@ public class Sumdoku {
         }
     }
 
-    private static boolean isEverySquareInGroup(GridGroups groups){
+    private static boolean isEverySquareInGroup(GridGroups groups) {
 
         // We store the grid size in a variable in order to optimize the speed of the code
         int gridSize = groups.gridSize(); 
@@ -254,7 +263,18 @@ public class Sumdoku {
 
     }
 
-    public static boolean definesPuzzle(SumdokuGrid grid, GridGroups groups){
+    /**
+     * 
+     * Checks if both objects utilized will form a valid Sumdoku Puzzle
+     * 
+     * @param grid the object type SumdokuGrid that allows the code to use the method size class SumdokuGrid
+     * @param groups the object type GridGroups that allows the code to use the method size class GridGroups
+     * @requires {@code grid != null}, {@code groups != null, and@code grid.Size() > 0}
+     * @return {@code true} if the grid and the groups define a valid Sumdoku Puzzle, otherwise it will return {@code false}.
+     */
+
+
+    public static boolean definesPuzzle(SumdokuGrid grid, GridGroups groups) {
         
         int size = grid.size();
         int gridSize = groups.gridSize();
@@ -297,9 +317,20 @@ public class Sumdoku {
         return result.toString(); // We return the StringBuilder result converted to String
     }
 
-    public static SumdokuGrid readGrid(int size, Scanner leitor){
+    /**
+     * 
+     * Reads a Sumdoku grid from the user input.
+     * 
+     * @param size the size of the grid.
+     * @param leitor the scanner used to read the user input.
+     * @requires {@code size > 0} and {@code leitor != null}.
+     * @return the value of each square of the grid and puts it in each one thorugh SumdokuGrid 
+     */
+    
+    
+    public static SumdokuGrid readGrid(int size, Scanner leitor) {
 
-        int valueOfSquare = 0;
+        int valueOfSquare = 1;
         int square = 0;
         SumdokuGrid finalSumdokuGrid = new SumdokuGrid(size);
         int numOfSquares = size * size;
@@ -309,8 +340,16 @@ public class Sumdoku {
             for(int col = 1; col <= size; col++) {
 
             square++;
+            
             System.out.print("Casa " + square + ": ");
             valueOfSquare = leitor.nextInt();
+
+            while(valueOfSquare < 1 || valueOfSquare > size) {
+                
+                System.out.println("Valor invalido. Tem de estar entre 1 e " + size + ".");
+                valueOfSquare = leitor.nextInt();
+            }
+
             finalSumdokuGrid.fill(row, col, valueOfSquare);
 
             }
@@ -469,13 +508,15 @@ public class Sumdoku {
 
                 // In each square, we'll check if the value in one SumdokuGrid is different than in the other one
                 if(playedGrid.value(r, c) != grid.value(r, c))
-                    return false; // If the value of one square differs between the two SumdokuGrid, we'll return false
+                    // If the value of one square differs between the two SumdokuGrid, we'll return false
+                    return false;
             }
         }
-        return true; // If we don't find any square with a different value in both SumdokuGrid, we'll return true
+        // In case we don't find any square with a different value in both SumdokuGrid, we'll return true
+        return true;
     }
 
     public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner scanner) {
-        /   // 
+        // 
     }
 }
