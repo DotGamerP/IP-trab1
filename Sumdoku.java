@@ -72,25 +72,45 @@ public class Sumdoku {
             }
         }
 
-        
+        // We end the program by closing our Scanner
+        sc.close();
     }
 
     /**
-     * Ask and get a grid size
+     * Ask and get a grid size (we'll also verify that it's between 3 and 9)
      *
      * @param sc Scanner that will be used to obtain the user's response
      * @requires {@code sc != null}
-     * @ensures {@code \result > 0} // Ensures the grid size is positive
-     * @return the grid size entered by the user
+     * @ensures {@code \result >= 3 && \result <= 9}
+     * @return the verified grid size entered by the user
      */
     private static int askAndGetGridSize(Scanner sc){
         
         // We'll ask the grid size
         System.out.print("Tamanho da grelha? ");
-        // We return the input from the user
-        return sc.nextInt(); 
+        // We get the input of the grid size from the user
+        int gridSize = sc.nextInt(); 
+
+        // We'll verify the gridSize is between 3 and 9
+        while (gridSize < 3 || gridSize > 9){
+            // If the grid size is invalid, we'll warn the user
+            System.out.println("Valor invalido. Tem de estar entre 3 e 9.");
+            // And, this time, we'll simply get directly the new value from the user (as shown when an input is invalid in the "$java Sumdoku"'s project example)
+            gridSize = sc.nextInt();
+        }
+
+        return gridSize; // We finally return the verified grid size
     }
 
+    /**
+     * Verify and read the user's grid
+     *
+     * @param gridSize The size of the grid we want to read
+     * @param sc Scanner that will be used to obtain the user's response
+     * @requires {@code gridSize > 2 && gridSize < 10 && sc != null}
+     * @ensures {@code \result != null && isValidForPuzzle(\result)}
+     * @return the verified SumdokuGrid entered by the user
+     */
     private static SumdokuGrid verifyAndReadGrid(int gridSize, Scanner sc){
 
         // We read the grid
@@ -105,6 +125,15 @@ public class Sumdoku {
         return puzzleGrid; // We finally return the verified grid
     }
 
+    /**
+     * Verify and read the user's groups
+     *
+     * @param grid The SumdokuGrid object representing the puzzle grid
+     * @param sc Scanner that will be used to obtain the user's response
+     * @requires {@code grid != null && sc != null}
+     * @ensures {@code \result != null && isValidForPuzzle(\result)}
+     * @return the verified GridGroups entered by the user
+     */
     private static GridGroups verifyAndReadGroups(SumdokuGrid grid, Scanner sc){
 
         // We read the groups
@@ -118,6 +147,15 @@ public class Sumdoku {
         return puzzleGroups; // We finally return the verified groups
     }
 
+    /**
+     * Calculate the row number of a given square in a grid
+     *
+     * @param square The index of the square (being 1 the first square)
+     * @param gridSize The size of the grid (number of squares per row/column)
+     * @requires {@code square > 0 && square <= gridSize*gridSize && gridSize > 2 && gridSize < 10}
+     * @ensures {@code \result > 0 && \result <= gridSize}
+     * @return the row number of the specified square
+     */
     public static int rowOfSquare(int square, int gridSize){
 
         /*
@@ -132,6 +170,15 @@ public class Sumdoku {
         return rowNumber; // We return the row number
     }
 
+    /**
+     * Calculate the column number of a given square in a grid
+     *
+     * @param square The index of the square (being 1 the first square)
+     * @param gridSize The size of the grid (number of squares per row/column)
+     * @requires {@code square > 0 && square <= gridSize * gridSize && gridSize > 2 && gridSize < 10}
+     * @ensures {@code \result > 0 && \result <= gridSize}
+     * @return the column number of the specified square
+     */
     public static int columnOfSquare(int square, int gridSize){
 
         /*
@@ -147,15 +194,7 @@ public class Sumdoku {
 
     }
 
-    /**
-    * Validates whether a given grid is suitable for a Sumdoku puzzle.
-    * 
-    * @param grid the object type SumdokuGrid that allows the code to use the method size class SumdokuGrid.
-    * @requires {@code grid != null} and {@code grid.size() > 0}.
-    @return {@code true} if the grid is valid for a Sumdoku Puzzle, otherwise it will return {@code false}.
-    */
-
-    public static boolean isValidForPuzzle(SumdokuGrid grid) {
+    public static boolean isValidForPuzzle(SumdokuGrid grid){
 
         // Variable to represent the size of the grid
         int gridSize = grid.size();
@@ -164,7 +203,8 @@ public class Sumdoku {
         if(grid == null || gridSize <= 0)
             return false;
 
-        //To verify if value of each square is the same as any other square on the same line of the grid
+        
+        // Para verificar se o número de cada posição está repetida em cada linha
         for(int r = 1; r <= gridSize; r++) {
 
             for(int c = 1; c < gridSize; c++) {
@@ -180,7 +220,7 @@ public class Sumdoku {
             }
         }
 
-        // Para verificar se o número de cada posição está repetida em cada coluna
+        // To check if the number at each position is repeated in each column
         for(int c = 1; c <= gridSize; c++) {
 
             for(int r = 1; r < gridSize; r++) {
@@ -193,11 +233,11 @@ public class Sumdoku {
             }
         }
         
-        // Caso nenhuma destas condições sejam acionadas então o puzzle é válido
+        // If none of these conditions are triggered, then the puzzle is valid
         return true;
     }
 
-    public static boolean isValidForPuzzle(GridGroups groups) {
+    public static boolean isValidForPuzzle(GridGroups groups){
 
         /*
         -> First we'll verify if "groups":
@@ -215,7 +255,7 @@ public class Sumdoku {
         }
     }
 
-    private static boolean isEverySquareInGroup(GridGroups groups) {
+    private static boolean isEverySquareInGroup(GridGroups groups){
 
         // We store the grid size in a variable in order to optimize the speed of the code
         int gridSize = groups.gridSize(); 
@@ -234,6 +274,15 @@ public class Sumdoku {
 
     }
 
+    /**
+     * Check if there are any empty groups in a certain GridGroups
+     *
+     * This method iterates through all groups and checks if any group has no squares assigned to it.
+     * 
+     * @param groups The GridGroups object containing the groups
+     * @requires {@code groups != null}
+     * @return True if there is an empty group, false otherwise.
+     */
     private static boolean hasEmptyGroup(GridGroups groups){
 
         // We store the grid size and the number of groups in a variable in order to optimize the speed of the code
@@ -287,6 +336,18 @@ public class Sumdoku {
             return true;
     }
 
+    /**
+     * Calculate the sum of the values of squares in each group and return the results as a formatted string.
+     *
+     * This method iterates through all the groups and squares in the grid, calculating the sum of the values
+     * in each group and constructing a string that presents this information.
+     * 
+     * @param grid The SumdokuGrid containing the values of the squares.
+     * @param groups The GridGroups object that defines the group assignments for the squares.
+     * @requires {@code grid != null && groups != null && groups.gridSize() > 2 && groups.gridSize() < 10 && definesPuzzle(grid, groups)}
+     * @ensures {@code \result != null}
+     * @return A string containing the sum of the values for each group in the format: "Soma das casas: G1 = X G2 = Y ...".
+     */
     public static String cluesToString(SumdokuGrid grid, GridGroups groups){
 
         // We store the grid size and the number of groups in a variable in order to optimize the speed of the code
@@ -317,47 +378,39 @@ public class Sumdoku {
         return result.toString(); // We return the StringBuilder result converted to String
     }
 
-    /**
-     * 
-     * Reads a Sumdoku grid from the user input.
-     * 
-     * @param size the size of the grid.
-     * @param leitor the scanner used to read the user input.
-     * @requires {@code size > 0} and {@code leitor != null}.
-     * @return the value of each square of the grid and puts it in each one thorugh SumdokuGrid 
-     */
-    
-    
-    public static SumdokuGrid readGrid(int size, Scanner leitor) {
+    public static SumdokuGrid readGrid(int size, Scanner leitor){
 
-        int valueOfSquare = 1;
+        int valueOfSquare = 0;
         int square = 0;
         SumdokuGrid finalSumdokuGrid = new SumdokuGrid(size);
         int numOfSquares = size * size;
 
         for(int row = 1; row <= size; row++) {
-
             for(int col = 1; col <= size; col++) {
 
             square++;
             
             System.out.print("Casa " + square + ": ");
             valueOfSquare = leitor.nextInt();
-
-            while(valueOfSquare < 1 || valueOfSquare > size) {
-                
-                System.out.println("Valor invalido. Tem de estar entre 1 e " + size + ".");
-                valueOfSquare = leitor.nextInt();
-            }
-
             finalSumdokuGrid.fill(row, col, valueOfSquare);
-
             }
         }
 
         return finalSumdokuGrid;
     }
 
+    /**
+     * Read and construct a GridGroups object based on user input, associating squares to groups in a grid.
+     *
+     * This method asks the user for the number of groups, the size of each group, and the squares that belong to each group. 
+     * It constructs a GridGroups object with the specified group information and returns it.
+     * 
+     * @param grid The SumdokuGrid containing the values of the squares.
+     * @param sc The Scanner object used to receive user input.
+     * @requires {@code grid != null && sc != null && grid.size() > 2 && grid.size() < 10 && definesPuzzle(grid, groups)}
+     * @ensures {@code \result != null} 
+     * @return A GridGroups object containing the group assignments for each square in the grid.
+     */
     public static GridGroups readGroups(SumdokuGrid grid, Scanner sc){
 
         // We store the grid size and number of squares in a variable in order to optimize the speed of the code
@@ -391,6 +444,18 @@ public class Sumdoku {
 
     }
 
+    /**
+     * Asks the user for the number of groups and ensures it is within the valid range.
+     *
+     * This method prompts the user to input the number of groups, then verifies if the input is valid.
+     * The valid number of groups must be between 1 and the total number of squares in the grid.
+     *
+     * @param sc The Scanner object used to get the user input.
+     * @param numOfSquares The total number of squares in the grid, used to define the valid range for the number of groups.
+     * @requires {@code sc != null && numOfSquares > 0}
+     * @ensures {@code \result >= 1 && \result <= numOfSquares}
+     * @return The valid number of groups provided by the user.
+     */
     private static int askAndGetNumOfGroups(Scanner sc, int numOfSquares){
         
         // We'll print the text for the user
@@ -408,6 +473,17 @@ public class Sumdoku {
         return numOfGroups; // We finally return the verified number of groups
     }
 
+    /**
+     * Asks the user for the size of a specified group.
+     *
+     * This method prompts the user to input the size of a group and returns the value.
+     *
+     * @param sc The Scanner object used to get the user input.
+     * @param g The group number for which the size is requested.
+     * @requires {@code sc != null && g > 0}
+     * @ensures {@code \result > 0}
+     * @return The size of the specified group provided by the user.
+     */
     private static int askAndGetSizeOfGroup(Scanner sc, int g){
 
         // We'll print the text for the user
@@ -418,6 +494,18 @@ public class Sumdoku {
         return groupSize; // We finally return the size of the group "g"
     }
 
+    /**
+     * Asks the user for a square number and ensures it is within the valid range.
+     *
+     * This method prompts the user to input the number of a square, then verifies if the input is valid.
+     * The valid square number must be between 1 and the total number of squares in the grid.
+     *
+     * @param sc The Scanner object used to get the user input.
+     * @param numOfSquares The total number of squares in the grid, used to define the valid range for the square number.
+     * @requires {@code sc != null && numOfSquares > 0}
+     * @ensures {@code \result >= 1 && \result <= numOfSquares}
+     * @return The valid square number provided by the user.
+     */
     private static int askAndGetSquare(Scanner sc, int numOfSquares){
 
         // We'll print the text for the user
@@ -517,6 +605,6 @@ public class Sumdoku {
     }
 
     public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner scanner) {
-        // 
+        /   // 
     }
 }
