@@ -517,4 +517,44 @@ public class Sumdoku {
         // If the player fails to solve the puzzle within the allowed attempts
         System.out.println("Fim de jogo! Você não conseguiu resolver o puzzle.");
     }
+
+    // Prints the current state of the grid
+    private static void printGrid(SumdokuGrid grid) {
+        for (int row = 0; row < grid.getSize(); row++) {
+            for (int col = 0; col < grid.getSize(); col++) {
+                int value = grid.getValueAt(row, col);
+                System.out.print((value == 0 ? "." : value) + " "); // Print '.' for empty cells
+            }
+            System.out.println(); // New line for each row
+        }
+    }
+
+    // Checks if the puzzle is solved
+    private static boolean isSolved(SumdokuGrid playedGrid, SumdokuGrid originalGrid) {
+        int size = playedGrid.getSize();
+
+        // Check if all rows and columns contain unique numbers from 1 to size
+        for (int i = 0; i < size; i++) {
+            // Validate rows and columns
+            if (!isUniqueSequence(playedGrid, i, true) || !isUniqueSequence(playedGrid, i, false)) {
+                return false; // Row or column is invalid
+            }
+        }
+
+        // Check if all cells are filled and valid
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                int playedValue = playedGrid.getValueAt(row, col);
+                int originalValue = originalGrid.getValueAt(row, col);
+
+                 // If the cell is empty or the played value doesn't match the puzzle constraints, return false
+                if (playedValue == 0 || (originalValue != 0 && playedValue != originalValue)) {
+                    return false;
+                }
+            }
+        }
+
+        return true; // All checks passed
+    }
+
 }
