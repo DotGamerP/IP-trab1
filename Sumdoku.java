@@ -477,7 +477,7 @@ public class Sumdoku {
 
     public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner scanner) {
         // Declare and initialize the played grid with the same size as the original grid
-        SumdokuGrid playedGrid = new SumdokuGrid(grid.getSize());
+        SumdokuGrid playedGrid = new SumdokuGrid(grid.Size());
 
         // Print the puzzle clues
         System.out.println("Bem-vindo ao Sumdoku!");
