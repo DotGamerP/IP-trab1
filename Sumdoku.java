@@ -241,6 +241,12 @@ public class Sumdoku {
         return true;
     }
 
+    /**
+     * Validate if the given GridGroups is valid for the puzzle.
+     *
+     * @param groups The GridGroups to validate
+     * @return True if the groups are valid, false otherwise
+     */
     public static boolean isValidForPuzzle(GridGroups groups){
 
         /*
@@ -259,6 +265,15 @@ public class Sumdoku {
         }
     }
 
+    /**
+     * Check if every square in the grid belongs to a group.
+     *
+     * This method iterates through all squares in the grid and checks if each square is assigned to a group.
+     * 
+     * @param groups The GridGroups object containing the grid.
+     * @requires {@code groups != null}
+     * @return True if every square is assigned to a group, false otherwise.
+     */
     private static boolean isEverySquareInGroup(GridGroups groups){
 
         // We store the grid size in a variable in order to optimize the speed of the code
@@ -278,6 +293,15 @@ public class Sumdoku {
 
     }
 
+    /**
+     * Check if there are any empty groups in a certain GridGroups
+     *
+     * This method iterates through all groups and checks if any group has no squares assigned to it.
+     * 
+     * @param groups The GridGroups object containing the groups
+     * @requires {@code groups != null}
+     * @return True if there is an empty group, false otherwise.
+     */
     private static boolean hasEmptyGroup(GridGroups groups){
 
         // We store the grid size and the number of groups in a variable in order to optimize the speed of the code
@@ -320,6 +344,18 @@ public class Sumdoku {
             return true;
     }
 
+    /**
+     * Calculate the sum of the values of squares in each group and return the results as a formatted string.
+     *
+     * This method iterates through all the groups and squares in the grid, calculating the sum of the values
+     * in each group and constructing a string that presents this information.
+     * 
+     * @param grid The SumdokuGrid containing the values of the squares.
+     * @param groups The GridGroups object that defines the group assignments for the squares.
+     * @requires {@code grid != null && groups != null && groups.gridSize() > 2 && groups.gridSize() < 10 && definesPuzzle(grid, groups)}
+     * @ensures {@code \result != null}
+     * @return A string containing the sum of the values for each group in the format: "Soma das casas: G1 = X G2 = Y ...".
+     */
     public static String cluesToString(SumdokuGrid grid, GridGroups groups){
 
         // We store the grid size and the number of groups in a variable in order to optimize the speed of the code
@@ -349,7 +385,19 @@ public class Sumdoku {
         result.append(" \n"); // We finalize the StringBuilder result with a space (required by SumdokuTest.java) and a line break
         return result.toString(); // We return the StringBuilder result converted to String
     }
-
+    
+    /**
+     * Read and construct a GridGroups object based on user input, associating squares to groups in a grid.
+     *
+     * This method asks the user for the number of groups, the size of each group, and the squares that belong to each group. 
+     * It constructs a GridGroups object with the specified group information and returns it.
+     * 
+     * @param grid The SumdokuGrid containing the values of the squares.
+     * @param sc The Scanner object used to receive user input.
+     * @requires {@code grid != null && sc != null && grid.size() > 2 && grid.size() < 10 && definesPuzzle(grid, groups)}
+     * @ensures {@code \result != null} 
+     * @return A GridGroups object containing the group assignments for each square in the grid.
+     */
     public static SumdokuGrid readGrid(int size, Scanner leitor){
 
         int valueOfSquare = 0;
@@ -372,6 +420,18 @@ public class Sumdoku {
         return finalSumdokuGrid;
     }
 
+    /**
+     * Read and construct a GridGroups object based on user input, associating squares to groups in a grid.
+     *
+     * This method asks the user for the number of groups, the size of each group, and the squares that belong to each group. 
+     * It constructs a GridGroups object with the specified group information and returns it.
+     * 
+     * @param grid The SumdokuGrid containing the values of the squares.
+     * @param sc The Scanner object used to receive user input.
+     * @requires {@code grid != null && sc != null && grid.size() > 2 && grid.size() < 10 && definesPuzzle(grid, groups)}
+     * @ensures {@code \result != null} 
+     * @return A GridGroups object containing the group assignments for each square in the grid.
+     */
     public static GridGroups readGroups(SumdokuGrid grid, Scanner sc){
 
         // We store the grid size and number of squares in a variable in order to optimize the speed of the code
@@ -405,6 +465,18 @@ public class Sumdoku {
 
     }
 
+    /**
+     * Asks the user for the number of groups and ensures it is within the valid range.
+     *
+     * This method prompts the user to input the number of groups, then verifies if the input is valid.
+     * The valid number of groups must be between 1 and the total number of squares in the grid.
+     *
+     * @param sc The Scanner object used to get the user input.
+     * @param numOfSquares The total number of squares in the grid, used to define the valid range for the number of groups.
+     * @requires {@code sc != null && numOfSquares > 0}
+     * @ensures {@code \result >= 1 && \result <= numOfSquares}
+     * @return The valid number of groups provided by the user.
+     */
     private static int askAndGetNumOfGroups(Scanner sc, int numOfSquares){
         
         // We'll print the text for the user
@@ -528,7 +600,8 @@ public class Sumdoku {
         return true; // If we don't find any square with a different value in both SumdokuGrid, we'll return true
     }
 
-    public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner scanner) {
-        /   // 
+    public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner sc) {
+
+        
     }
 }
