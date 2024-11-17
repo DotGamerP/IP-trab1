@@ -301,7 +301,7 @@ public class Sumdoku {
             for(int col = 1; col <= size; col++) {
 
             square++;
-            System.out.println("Casa " + square + ": ");
+            System.out.print("Casa " + square + ": ");
             valueOfSquare = leitor.nextInt();
             finalSumdokuGrid.fill(row, col, valueOfSquare);
 
