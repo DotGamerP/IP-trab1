@@ -81,8 +81,8 @@ public class Sumdoku {
      *
      * @param sc Scanner that will be used to obtain the user's response
      * @requires {@code sc != null}
-     * @ensures {@code \result > 0}
-     * @return the grid size entered by the user
+     * @ensures {@code \result >= 3 && \result <= 9}
+     * @return the verified grid size entered by the user
      */
     private static int askAndGetGridSize(Scanner sc){
         
@@ -108,8 +108,8 @@ public class Sumdoku {
      * @param gridSize The size of the grid we want to read
      * @param sc Scanner that will be used to obtain the user's response
      * @requires {@code gridSize > 2 && gridSize < 10 && sc != null}
-     * @ensures {@code \result > 0}
-     * @return the grid size entered by the user
+     * @ensures {@code \result != null && isValidForPuzzle(\result)}
+     * @return the verified SumdokuGrid entered by the user
      */
     private static SumdokuGrid verifyAndReadGrid(int gridSize, Scanner sc){
 
@@ -125,6 +125,15 @@ public class Sumdoku {
         return puzzleGrid; // We finally return the verified grid
     }
 
+    /**
+     * Verify and read the user's groups
+     *
+     * @param grid The SumdokuGrid object representing the puzzle grid
+     * @param sc Scanner that will be used to obtain the user's response
+     * @requires {@code grid != null && sc != null}
+     * @ensures {@code \result != null && isValidForPuzzle(\result)}
+     * @return the verified GridGroups entered by the user
+     */
     private static GridGroups verifyAndReadGroups(SumdokuGrid grid, Scanner sc){
 
         // We read the groups
@@ -138,6 +147,15 @@ public class Sumdoku {
         return puzzleGroups; // We finally return the verified groups
     }
 
+    /**
+     * Calculate the row number of a given square in a grid
+     *
+     * @param square The index of the square (being 1 the first square)
+     * @param gridSize The size of the grid (number of squares per row/column)
+     * @requires {@code square > 0 && square <= gridSize*gridSize && gridSize > 2 && gridSize < 10}
+     * @ensures {@code \result > 0 && \result <= gridSize}
+     * @return the row number of the specified square
+     */
     public static int rowOfSquare(int square, int gridSize){
 
         /*
@@ -152,6 +170,15 @@ public class Sumdoku {
         return rowNumber; // We return the row number
     }
 
+    /**
+     * Calculate the column number of a given square in a grid
+     *
+     * @param square The index of the square (being 1 the first square)
+     * @param gridSize The size of the grid (number of squares per row/column)
+     * @requires {@code square > 0 && square <= gridSize * gridSize && gridSize > 2 && gridSize < 10}
+     * @ensures {@code \result > 0 && \result <= gridSize}
+     * @return the column number of the specified square
+     */
     public static int columnOfSquare(int square, int gridSize){
 
         /*
@@ -167,6 +194,12 @@ public class Sumdoku {
 
     }
 
+    /**
+     * Validate if the given SumdokuGrid is valid for the puzzle.
+     *
+     * @param grid The SumdokuGrid to validate
+     * @return True if the grid is valid, false otherwise
+     */
     public static boolean isValidForPuzzle(SumdokuGrid grid){
 
         int gridSize = grid.size();
@@ -176,7 +209,7 @@ public class Sumdoku {
             return false;
 
         
-        // Para verificar se o número de cada posição está repetida em cada linha
+        // To check if the number at each position is repeated in each row
         for(int r = 1; r <= gridSize; r++) {
 
             for(int c = 1; c < gridSize; c++) {
@@ -191,7 +224,7 @@ public class Sumdoku {
             }
         }
 
-        // Para verificar se o número de cada posição está repetida em cada coluna
+        // To check if the number at each position is repeated in each column
         for(int c = 1; c <= gridSize; c++) {
 
             for(int r = 1; r < gridSize; r++) {
@@ -204,7 +237,7 @@ public class Sumdoku {
             }
         }
         
-        // Caso nenhuma destas condições sejam acionadas então o puzzle é válido
+        // If none of these conditions are triggered, then the puzzle is valid
         return true;
     }
 
