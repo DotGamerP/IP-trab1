@@ -193,8 +193,16 @@ public class Sumdoku {
         return columnNumber; // We return the column number
 
     }
-
-    public static boolean isValidForPuzzle(SumdokuGrid grid){
+    /**
+     * Checks wether the given SumdokuGrid is suitable for a valid Sumdoku Puzzle
+     * 
+     * @param grid the SumdokuGrid object that represents the puzzle's grid.
+     * @requires {@code grid != null} and {@code grid.size() > 0}.
+     * @return {@code true} if the grid is valid for the SumdokuPuzzle, otherwise it will return {@code false}.
+     * 
+     */
+    
+     public static boolean isValidForPuzzle(SumdokuGrid grid){
 
         // Variable to represent the size of the grid
         int gridSize = grid.size();
@@ -203,8 +211,7 @@ public class Sumdoku {
         if(grid == null || gridSize <= 0)
             return false;
 
-        
-        // Para verificar se o número de cada posição está repetida em cada linha
+        // To verify if the number in each square (position) isn't repeated in other squares of the same line
         for(int r = 1; r <= gridSize; r++) {
 
             for(int c = 1; c < gridSize; c++) {
@@ -322,7 +329,6 @@ public class Sumdoku {
      * @return {@code true} if the grid and the groups define a valid Sumdoku Puzzle, otherwise it will return {@code false}.
      */
 
-
     public static boolean definesPuzzle(SumdokuGrid grid, GridGroups groups) {
         
         int size = grid.size();
@@ -378,6 +384,16 @@ public class Sumdoku {
         return result.toString(); // We return the StringBuilder result converted to String
     }
 
+    /**
+     * 
+     * Reads a Sumdoku grid from the user input.
+     * 
+     * @param size Represents the size of the grid.
+     * @param leitor the scanner used to read the user input
+     * @requires {@code size > 0} and {@code leitor != null}.
+     * @return to the grid of the Puzzle (fills the grid) with the values of each square (positions) that are entered by the user input.
+     */
+    
     public static SumdokuGrid readGrid(int size, Scanner leitor){
 
         int valueOfSquare = 0;
