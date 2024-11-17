@@ -513,10 +513,10 @@ public class Sumdoku {
 
             // Print the current state of the played grid
             System.out.println("Estado atual do puzzle:");
-            playedGrid.printGrid(playedGrid);
+            printGrid(playedGrid);
 
             // Check if the puzzle is solved
-            if (playedGrid.isSolved(playedGrid, grid)) {
+            if (isSolved(playedGrid, grid)) {
                 System.out.println("Parabéns! Você resolveu o puzzle.");
                 return;
             }
