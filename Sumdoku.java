@@ -467,7 +467,54 @@ public class Sumdoku {
         return true; // If we don't find any square with a different value in both SumdokuGrid, we'll return true
     }
 
-    public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner sc){
-        //
+    public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner scanner) {
+        // Declare and initialize the played grid with the same size as the original grid
+        SumdokuGrid playedGrid = new SumdokuGrid(grid.getSize());
+
+        // Print the puzzle clues
+        System.out.println("Bem-vindo ao Sumdoku!");
+        System.out.println("Você tem " + maxAttempts + " tentativas para resolver o puzzle.");
+        System.out.println("Puzzle inicial:");
+        printGrid(grid);
+
+        // Loop for player attempts
+        int attempts = 0;
+        while (attempts < maxAttempts) {
+            attempts++;
+            System.out.println("\nTentativa " + attempts + " de " + maxAttempts + ":");
+
+            // Get a valid move from the player
+            int row, col, number;
+            while (true) {
+                System.out.print("Digite a linha (1 a " + grid.getSize() + "): ");
+                row = scanner.nextInt() - 1; // Adjust for 0-based indexing
+                System.out.print("Digite a coluna (1 a " + grid.getSize() + "): ");
+                col = scanner.nextInt() - 1; // Adjust for 0-based indexing
+                System.out.print("Digite o número (1 a " + grid.getSize() + "): ");
+                number = scanner.nextInt();
+
+                if (isValidMove(playedGrid, grid, row, col, number)) {
+                    break; // Valid move
+                } else {
+                    System.out.println("Jogada inválida! Tente novamente.");
+                }
+            }
+
+            // Record the move in the played grid
+            playedGrid.setValueAt(row, col, number);
+
+            // Print the current state of the played grid
+            System.out.println("Estado atual do puzzle:");
+            printGrid(playedGrid);
+
+            // Check if the puzzle is solved
+            if (isSolved(playedGrid, grid)) {
+                System.out.println("Parabéns! Você resolveu o puzzle.");
+                return;
+            }
+        }
+
+        // If the player fails to solve the puzzle within the allowed attempts
+        System.out.println("Fim de jogo! Você não conseguiu resolver o puzzle.");
     }
 }
