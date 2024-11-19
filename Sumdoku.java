@@ -195,49 +195,63 @@ public class Sumdoku {
     }
 
     /**
-     * Validate if the given SumdokuGrid is valid for the puzzle.
-     *
-     * @param grid The SumdokuGrid to validate
-     * @return True if the grid is valid, false otherwise
+     * Validates whether the given Sumdoku grid follows the necessary rules for a valid puzzle.
+     * 
+     * @param grid The Sumdoku grid to be validated.
+     * @return True if the grid is valid, false otherwise.
      */
-    public static boolean isValidForPuzzle(SumdokuGrid grid){
-
+    public static boolean isValidForPuzzle(SumdokuGrid grid) {
+        // Check if the grid is null
+        if (grid == null) {
+            return false; // Return false if grid is null
+        }
+    
+        // Get the size of the grid
         int gridSize = grid.size();
-        int rowRepeated = 0;
-
-        if(grid == null || gridSize <= 0)
-            return false;
-
-        
-        // To check if the number at each position is repeated in each row
-        for(int r = 1; r <= gridSize; r++) {
-
-            for(int c = 1; c < gridSize; c++) {
-
-                int value = grid.value(r, c);
-
-                if(grid.value(r, c) < 1 || grid.value(r, c) > gridSize)
-                    return false;
-
-                if(value == grid.value(r, c + 1))
-                    return false;
+        // Calculate the expected sum for each row and column (1 + 2 + ... + n)
+        int targetSum = gridSize * (gridSize + 1) / 2;
+    
+        // Loop through each row and column to check for validity
+        for (int rowIndex = 1; rowIndex <= gridSize; rowIndex++) {
+            int currentRowSum = 0;
+            int currentColSum = 0;
+    
+            // Check each cell in the row and column
+            for (int colIndex = 1; colIndex <= gridSize; colIndex++) {
+                int rowValue = grid.value(rowIndex, colIndex); // Value in the current row
+                int colValue = grid.value(colIndex, rowIndex); // Value in the current column
+    
+                // Check for duplicates in the row up to the current column
+                for (int prevColIndex = 1; prevColIndex < colIndex; prevColIndex++) {
+                    if (grid.value(rowIndex, prevColIndex) == rowValue) {
+                        return false; // Duplicate found in the row, invalid grid
+                    }
+                }
+    
+                // Check for duplicates in the column up to the current row
+                for (int prevRowIndex = 1; prevRowIndex < colIndex; prevRowIndex++) {
+                    if (grid.value(prevRowIndex, rowIndex) == colValue) {
+                        return false; // Duplicate found in the column, invalid grid
+                    }
+                }
+    
+                // Check if the value is outside the valid range (1 to grid size)
+                if (rowValue < 1 || rowValue > gridSize || colValue < 1 || colValue > gridSize) {
+                    return false; // Invalid value, outside the allowed range
+                }
+    
+                // Update the row and column sums
+                currentRowSum += rowValue;
+                currentColSum += colValue;
+            }
+    
+            // Check if the sum of the row and column match the expected sum
+            if (currentRowSum != targetSum || currentColSum != targetSum) {
+                return false; // Invalid grid if the sum doesn't match
             }
         }
-
-        // To check if the number at each position is repeated in each column
-        for(int c = 1; c <= gridSize; c++) {
-
-            for(int r = 1; r < gridSize; r++) {
-
-                int value = grid.value(r, c);
-
-                if(value == grid.value(r + 1, c))
-                    return false;
-
-            }
-        }
-        
-        // If none of these conditions are triggered, then the puzzle is valid
+    
+        // If all checks pass, the grid is valid
         return true;
     }
 
@@ -331,17 +345,33 @@ public class Sumdoku {
 
     }
 
-    public static boolean definesPuzzle(SumdokuGrid grid, GridGroups groups){
-        
-        int size = grid.size();
-        int gridSize = groups.gridSize();
-        boolean validPuzzle = gridSize != size || groups.numberOfGroups() < 2;
+    /**
+     * Checks if the given Sumdoku puzzle defined by the grid and group 
+     * configuration is a valid puzzle with exactly one solution.
+     *
+     * @param grid The Sumdoku grid to be validated.
+     * @param groups The group configuration that defines the puzzle's rules.
+     * @return true if the grid and group define a valid puzzle with exactly one solution, false otherwise.
+     */
+    public static boolean definesPuzzle(SumdokuGrid grid, GridGroups groups) {
+        // Check if the grid size matches the group configuration size.
+        if (grid.size() != groups.gridSize()) {
+            return false; // Return false if sizes do not match.
+        }
 
-        if(validPuzzle)
+        // Create a SumdokuSolver to calculate the number of possible solutions.
+        SumdokuSolver solutions = new SumdokuSolver(grid, groups);
+
+        // Check how many solutions exist for the given puzzle, using a maximum of 2 solutions.
+        int numSolutions = solutions.howManySolutions(2);
+
+        // Return false if there is not exactly one solution.
+        if (numSolutions != 1) {
             return false;
+        }
 
-        else
-            return true;
+        // Return true if the puzzle has exactly one solution.
+        return true;
     }
 
     /**
@@ -398,29 +428,43 @@ public class Sumdoku {
      * @ensures {@code \result != null} 
      * @return A SumdokuGrid object filled with the values provided by the user for each square.
      */
-    public static SumdokuGrid readGrid(int size, Scanner sc){
+    public static SumdokuGrid readGrid(int size, Scanner sc) {
 
+        // Initialize the value of the square and the square counter
         int valueOfSquare;
         int square = 0;
+    
+        // Create a new SumdokuGrid with the specified size
         SumdokuGrid finalSumdokuGrid = new SumdokuGrid(size);
+    
+        // Calculate the total number of squares in the grid (size * size)
         int numOfSquares = size * size;
-
-        for(int row = 1; row <= size; row++) {
-            for(int col = 1; col <= size; col++) {
-
-            square++;
-            System.out.print("Casa " + square + ": ");
-            valueOfSquare = sc.nextInt();
-
-            while(valueOfSquare < 1 || valueOfSquare > size){
-                System.out.println("Valor invalido. Tem de estar entre 1 e " + size + ".");
+    
+        // Loop through each row in the grid
+        for (int row = 1; row <= size; row++) {
+            // Loop through each column in the grid for the current row
+            for (int col = 1; col <= size; col++) {
+    
+                // Increment the square counter for each grid position
+                square++;
+    
+                // Prompt the user to enter a value for the current square
+                System.out.print("Casa " + square + ": ");
                 valueOfSquare = sc.nextInt();
-            }
-
-            finalSumdokuGrid.fill(row, col, valueOfSquare);
+    
+                // Ensure that the entered value is within the valid range (1 to size)
+                while (valueOfSquare < 1 || valueOfSquare > size) {
+                    // If the value is invalid, notify the user and prompt for re-entry
+                    System.out.println("Valor invalido. Tem de estar entre 1 e " + size + ".");
+                    valueOfSquare = sc.nextInt();
+                }
+    
+                // Fill the Sumdoku grid at the current row and column with the valid value
+                finalSumdokuGrid.fill(row, col, valueOfSquare);
             }
         }
-
+    
+        // Return the filled Sumdoku grid
         return finalSumdokuGrid;
     }
 
@@ -534,7 +578,7 @@ public class Sumdoku {
     private static int askAndGetSquare(Scanner sc, int numOfSquares){
 
         // We'll print the text for the user
-        System.out.println("Casa? ");
+        System.out.print("Casa? ");
         // We store the group size through the Scanner "sc"
         int square = sc.nextInt();
 
@@ -549,6 +593,16 @@ public class Sumdoku {
         return square; // We finally return the verified square
     }
 
+    /**
+     * Returns a built-in SumdokuGrid for a specified size.
+     *
+     * This method provides a pre-defined grid for a given size previously stored. 
+     * For any other size, it returns null.
+     *
+     * @param size The size of the grid
+     * @requires {@code size > 0}
+     * @return A SumdokuGrid object with predefined values, or null if the size is not defined.
+     */
     public static SumdokuGrid getBuiltInGrid(int size){
 
         // If we have a default grid created for a specific size, then we'll return it. Else, we'll return null as a representation of "not valid".
@@ -569,7 +623,7 @@ public class Sumdoku {
             |-> We could definitely use a StringBuilder as an imitation of an array and do this in a more legible way (storing the differents values in it)...|
             |-> Although this would mean a worse efficiency of the code (it would take longer time to execute)                                                |
             |-> We could only do this efficient with an array                                                                                                 |
-            |-> But it's prohibited in this project, so we will mantain the code as it is right now                                                          |
+            |-> But it's prohibited in this project, so we will mantain the code as it is right now                                                           |
             -------------------------------------------------------------------------------------------------------------------------------------------------*/
 
             return grid; // We finally return the grid
@@ -580,6 +634,16 @@ public class Sumdoku {
         }
     }
 
+    /**
+     * Returns a built-in GridGroups for a specified size.
+     *
+     * This method provides a pre-defined groups grid for a given size previously stored. 
+     * For any other size, it returns null.
+     *
+     * @param size The size of the grid
+     * @requires {@code size > 0}
+     * @return A SumdokuGrid object with predefined values, or null if the size is not defined.
+     */
     public static GridGroups getBuiltInGroups(int size){
         // If we have default groups created for a specific size, then we'll return it. Else, we'll return null as a representation of "not valid".
         if (size == 3) {
@@ -599,7 +663,7 @@ public class Sumdoku {
             |-> We could definitely use a StringBuilder as an imitation of an array and do this in a more legible way (storing the differents values in it)...|
             |-> Although this would mean a worse efficiency of the code (it would take longer time to execute)                                                |
             |-> We could only do this efficient with an array                                                                                                 |
-            |-> But it's prohibited in this project, so we will mantain the code as it is right now                                                          |
+            |-> But it's prohibited in this project, so we will mantain the code as it is right now                                                           |
             -------------------------------------------------------------------------------------------------------------------------------------------------*/
 
             return group; // We finally return the group
@@ -610,6 +674,18 @@ public class Sumdoku {
         }
     }
 
+    /**
+     * Checks if the puzzle has been solved correctly.
+     *
+     * This method compares each square's value in two SumdokuGrid objects: the played grid and the original grid. 
+     * If all the values match between the two grids, it returns true, indicating the puzzle is solved. Otherwise, 
+     * it returns false.
+     *
+     * @param playedGrid The grid representing the player's progress.
+     * @param grid The original grid that defines the correct solution.
+     * @requires {@code playedGrid != null && grid != null && definesPuzzle(playedGrid.size(), grid.size())}
+     * @return true if the player's grid matches the solution, false otherwise.
+     */
     public static boolean puzzleSolved(SumdokuGrid playedGrid, SumdokuGrid grid){
 
         // We store the grid size in a variable in order to optimize the speed of the code
@@ -627,8 +703,132 @@ public class Sumdoku {
         return true; // If we don't find any square with a different value in both SumdokuGrid, we'll return true
     }
 
+    /**
+     * Starts a new game of Sumdoku, allowing the user to play by filling in the grid.
+     *
+     * This method initializes the game, displaying the puzzle clues and instructions,
+     * and allows the user to make a series of attempts to solve the puzzle.
+     * The user is prompted to select squares and enter values, and the game tracks 
+     * the number of attempts. Once the maximum number of attempts is reached, the 
+     * puzzle is checked for correctness, and a message is displayed.
+     *
+     * @param grid The original SumdokuGrid containing the correct solution.
+     * @param groups The GridGroups object containing the group assignments for each square.
+     * @param maxAttempts The maximum number of attempts allowed to solve the puzzle.
+     * @param sc The Scanner object used to receive user input.
+     * @requires {@code grid != null && groups != null && sc != null && maxAttempts > 0}
+     * @ensures {@code \result != null} 
+     */
     public static void play(SumdokuGrid grid, GridGroups groups, int maxAttempts, Scanner sc) {
 
-        System.out.println("Bem vindo ao jogo Sumdoku!\nNeste jogo a grelha tem tamanho " + grid.size() + " e tens estas pistas:");
+        // Store the size of the grid
+        int gridSize = grid.size();
+
+        // Declare variables to store the square and value to be filled
+        int square;
+        int value;
+
+        // Create a new SumdokuGrid to track the user's progress
+        SumdokuGrid playedGrid = new SumdokuGrid(gridSize);
+
+        // Display welcome message and game instructions
+        System.out.println("Bem vindo ao jogo Sumdoku!\nNeste jogo a grelha tem tamanho " + gridSize + " e tens estas pistas:");
+        System.out.print(groups); // Print the grid groups
+        System.out.print(cluesToString(grid, groups)); // Display the clues for the puzzle
+        System.out.println("Tens " + maxAttempts + " tentativas para resolver o puzzle. Boa sorte!"); // Display the maximum attempts
+
+        // Loop a "number of attempts" times
+        for (int i = 0; i < maxAttempts; i++) {
+
+            // Ask the user to select a square and enter a value
+            square = askAndGetSelectedSquare(sc, gridSize);
+            value = askAndGetValue(sc, gridSize);
+
+            // Fill the selected square in the played grid with the chosen value
+            playedGrid.fill(rowOfSquare(square, gridSize), columnOfSquare(square, gridSize), value);
+
+            // Display the current state of the played grid after the move
+            System.out.print(playedGrid);             
+        }
+
+        // After all attempts, check if the puzzle is solved
+        if(puzzleSolved(playedGrid, grid)){
+            System.out.println("Parabens, resolveste o puzzle!"); // Display success message
+        } else {
+            System.out.println("Tentativas esgotadas. Tenta outra vez!"); // Display failure message
+        }
+
     }
+
+    /**
+     * Prompts the user to select a square to fill in the grid.
+     *
+     * This method asks the user for a valid square number to fill. The square must be between 
+     * 1 and the total number of squares in the grid. The method ensures the input is valid.
+     *
+     * @param sc The Scanner object used to receive user input.
+     * @param gridSize The size of the grid, used to validate the selected square number.
+     * @requires {@code sc != null && gridSize > 2 && gridSize < 10}
+     * @ensures {@code \result >= 1 && \result <= gridSize * gridSize}
+     * @return The valid square number chosen by the user.
+     */
+    private static int askAndGetSelectedSquare(Scanner sc, int gridSize){
+        
+        // Declare a variable to store the square number that the user selects
+        int square;
+
+        // Prompt the user to enter the square they want to fill
+        System.out.print("Casa a preencher? ");
+        square = sc.nextInt(); // Store the user input as the square number
+
+        // Validate if the selected square is within the valid range
+        while(square < 1 || square > gridSize*gridSize){
+            // If the square is invalid, print an error message and ask the user again (exactly as in the examples of the project)
+            System.out.println("Valor invalido. Tem de estar entre 1 e " + gridSize*gridSize + ".");
+            square = sc.nextInt(); // Get a new square number from the user
+        }
+
+        // Return the valid square number
+        return square;
+    }
+
+    /**
+     * Prompts the user to enter a value for a selected square in the grid.
+     *
+     * This method asks the user for a valid value to place in a selected square. The value must 
+     * be between 1 and the size of the grid. The method ensures the input is valid.
+     *
+     * @param sc The Scanner object used to receive user input.
+     * @param gridSize The size of the grid, used to validate the value.
+     * @requires {@code sc != null && gridSize > 2 && gridSize < 10}
+     * @ensures {@code \result >= 1 && \result <= gridSize}
+     * @return The valid value to place in the selected square.
+     */
+    private static int askAndGetValue(Scanner sc, int gridSize){
+        
+        // Declare a variable to store the value that the user wants to place in the selected square
+        int value;
+
+        // Prompt the user to enter the value to be placed in the selected square
+        System.out.print("Valor a colocar? ");
+        value = sc.nextInt(); // Store the user input as the value to be placed
+
+        // Validate if the entered value is within the valid range
+        while(value < 1 || value > gridSize){
+            // If the value is invalid, print an error message and ask the user again (exactly as in the examples of the project)
+            System.out.println("Valor invalido. Tem de estar entre 1 e " + gridSize + ".");
+            value = sc.nextInt(); // Get a new value from the user
+        }
+
+        // Return the valid value entered by the user
+        return value;
+
+    }
+
+    /*--------------------------------------------------------------------NOTE------------------------------------------------------------------------
+    |-> Many times in this code, we're using while loops instead of do-while loops...                                                                |
+    |-> This is because in the lines of this code, a do-while loop would innecesarily demand the machine to do a verification process twice          |
+    |-> We consider a do-while loop would be way more useful in another situations that didn't take place in this code                               |
+    -------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 }
